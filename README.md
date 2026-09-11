@@ -1,12 +1,12 @@
 # FG SQL Reports (com_fgreports)
 
-![Version](https://img.shields.io/badge/version-1.7.8-blue)
-![Joomla](https://img.shields.io/badge/Joomla-6.x-1a6877)
+![Version](https://img.shields.io/badge/version-1.7.9-blue)
+![Joomla](https://img.shields.io/badge/Joomla-5.4%2B%20%7C%206.x-1a6877)
 ![License](https://img.shields.io/badge/license-GPL--2.0-orange)
 ![GitHub release](https://img.shields.io/github/v/release/ferino75/com_fgreports)
 
-A native Joomla 6 component that displays reports from an MS SQL Server
-database on the front end. One SQL script = one report, rendered as a
+A native Joomla component (namespaced MVC, PSR-4) that displays reports
+from an MS SQL Server database on the front end. One SQL script = one report, rendered as a
 table.
 
 Built for deployment on a local network: Joomla runs on one local server
@@ -38,7 +38,9 @@ Built for deployment on a local network: Joomla runs on one local server
 
 ## Requirements
 
-- Joomla 6.x, **with Joomla itself running on MySQL/MariaDB** (the
+- Joomla 5.4+ or 6.x (developed against 6.x APIs, but actively running on
+  5.4.8 in production - not tested below 5.4), **with Joomla itself
+  running on MySQL/MariaDB** (the
   component's own schema ships as a MySQL variant only - PostgreSQL is
   not currently supported, since I have no way to test against it)
 - PHP 8.1+ with the **pdo_sqlsrv** extension enabled (Microsoft Drivers
