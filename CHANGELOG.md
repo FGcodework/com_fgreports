@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8.3
+- Fixed named SQL Server instances (`SQL01\SQLEXPRESS`) failing to connect. The DSN always appended `,<port>` to whatever was typed in the Server field, turning `SQL01\SQLEXPRESS` into `SQL01\SQLEXPRESS,1433` - a named instance resolves its own (usually dynamic) port via the SQL Browser service, and forcing an explicit port onto it typically breaks the connection. `ConnectionHelper` now only appends the configured Port when the Server field looks like a plain hostname/IP (no `\` or `,`); typing a named instance or an explicit `host,port` directly into Server now works as-is, with the Port field ignored in either case. Clarified this in the field's description.
+
 ## 1.8.2
 - Fixed the "New Report" admin submenu item. It used `onclick="Joomla.submitbutton('report.add')"`, which submits whichever `#adminForm` happens to exist on the *current* page - broken (or outright wrong) if you clicked it from Options, another component's screen, or anywhere without that exact form. Replaced with a plain link to `task=report.add`, matching core's own convention - `FormController::add()` (inherited, no override needed) already handles clearing the edit session state and redirecting to a blank edit form on its own, no JS submission trick required.
 

@@ -66,9 +66,8 @@ class ConnectionHelper
         }
 
         $dsn = sprintf(
-            'sqlsrv:Server=%s,%d;Database=%s;Encrypt=%s;TrustServerCertificate=%s;LoginTimeout=%d',
-            $host,
-            $port,
+            'sqlsrv:Server=%s;Database=%s;Encrypt=%s;TrustServerCertificate=%s;LoginTimeout=%d',
+            self::buildServerAddress($host, $port),
             $database,
             $encrypt,
             $trustCert,
@@ -107,6 +106,24 @@ class ConnectionHelper
         }
 
         return $pdo;
+    }
+
+    /**
+     * Builds the "Server=" value for the DSN. The configured port is only
+     * appended when the host looks like a plain hostname/IP - a named
+     * instance ("SQL01\SQLEXPRESS") resolves its (usually dynamic) port via
+     * the SQL Browser service, and forcing a port onto it (turning it into
+     * "SQL01\SQLEXPRESS,1433") typically breaks the connection outright. The
+     * admin can also type an explicit "host,port" directly into the Server
+     * field, in which case the configured Port field is ignored too.
+     */
+    private static function buildServerAddress(string $host, int $port): string
+    {
+        if (str_contains($host, '\\') || str_contains($host, ',')) {
+            return $host;
+        }
+
+        return $host . ',' . $port;
     }
 
     /**
