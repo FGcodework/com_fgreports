@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.6
+- Added an update server: `updates.xml` at the repo root plus `<updateservers>` in the manifest, pointing at the raw file on the `master` branch (same pattern as the other FG extensions - update site XML with `<element>com_fgreports</element>` (components keep the `com_` prefix, unlike plugins), `<client>administrator</client>`, and a `targetplatform` regex scoped to `6\..*`). Once the GitHub repo/releases exist, Joomla's own Extension Manager can offer and install updates directly.
+- Translated `README.md` from Slovak to English and brought it up to date with everything implemented since it was first written (pagination, sorting, drag-and-drop ordering, `fgreports.execute`, encrypted password, per-report `stack_mobile`/`table_css_class`, query timeout) - the original only covered the state as of the very first release.
+
 ## 1.7.5
 - `LICENSE.txt` was referenced by the manifest's `<license>` tag ("see LICENSE.txt") but was never actually included in the installable package - it only existed in the repo root, which isn't part of the install ZIP. Copied it into `admin/LICENSE.txt` and added it to the manifest's admin `<files>` list, so it's now physically present in the installed extension.
 

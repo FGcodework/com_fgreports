@@ -5,7 +5,7 @@
     <creationDate>2026-09</creationDate>
     <copyright>Copyright (C) Fero. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>1.7.5</version>
+    <version>1.7.6</version>
     <description>COM_FGREPORTS_XML_DESCRIPTION</description>
     <namespace path="src">FG\Component\Fgreports</namespace>
 
@@ -60,4 +60,8 @@
             <language tag="sk-SK">sk-SK/sk-SK.com_fgreports.sys.ini</language>
         </languages>
     </administration>
+
+    <updateservers>
+        <server type="extension" name="FG SQL Reports Update Site">https://raw.githubusercontent.com/ferino75/com_fgreports/master/updates.xml</server>
+    </updateservers>
 </extension>

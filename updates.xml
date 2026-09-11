@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<updates>
+    <update>
+        <name>FG SQL Reports</name>
+        <description>Displays reports from an MS SQL Server database on the front end. One SQL script = one report.</description>
+        <element>com_fgreports</element>
+        <type>component</type>
+        <client>administrator</client>
+        <version>1.7.6</version>
+        <infourl title="FG SQL Reports">https://github.com/ferino75/com_fgreports</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">https://github.com/ferino75/com_fgreports/releases/download/v1.7.6/com_fgreports_v1.7.6.zip</downloadurl>
+        </downloads>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <maintainer>Fero</maintainer>
+        <maintainerurl>https://github.com/ferino75</maintainerurl>
+        <targetplatform name="joomla" version="6\..*" />
+    </update>
+</updates>
