@@ -1,6 +1,6 @@
 # FG SQL Reports (com_fgreports)
 
-![Version](https://img.shields.io/badge/version-1.7.7-blue)
+![Version](https://img.shields.io/badge/version-1.7.8-blue)
 ![Joomla](https://img.shields.io/badge/Joomla-6.x-1a6877)
 ![License](https://img.shields.io/badge/license-GPL--2.0-orange)
 ![GitHub release](https://img.shields.io/github/v/release/ferino75/com_fgreports)

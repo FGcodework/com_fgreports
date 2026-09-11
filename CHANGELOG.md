@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.8
+- Explicitly set `PDO::SQLSRV_ATTR_ENCODING` to `PDO::SQLSRV_ENCODING_UTF8` on the connection. Note: `CharacterSet` (mentioned in some guides) is **not** a valid DSN option for the PDO_SQLSRV driver - that's only for the older function-based `sqlsrv_connect()` API; confirmed against Microsoft's own driver docs. UTF-8 is already PDO_SQLSRV's default encoding, but setting it explicitly avoids depending on that default and guards against mojibake with diacritics (ľščťžýáíé) on a Linux Joomla server talking to a Windows SQL Server.
+- Added an opt-in **"Read-Only Application Intent"** option (off by default) that appends `ApplicationIntent=ReadOnly` to the connection string - enables SQL Server Availability Group read-only routing to a secondary replica if the target server is set up for it; a no-op on a standalone (non-AG) server. Left off by default since it changes connection routing behaviour and the target server's topology can't be verified from here.
+
 ## 1.7.7
 - **Important**: report execution had no cap on the front end at all - `ConnectionHelper::runScript()` fetched every single row returned by the query into a PHP array, unconditionally. Front-end pagination only sliced that already-fully-buffered array afterwards, and a cached report kept the entire uncapped result in Joomla's cache too. A report script without a restrictive `WHERE`/`TOP` on a large table could exhaust `memory_limit` or the PHP request timeout - a read-only DB login does nothing to prevent this, since it's a resource-exhaustion problem, not a data-integrity one.
   - Added a global **"Max Rows Per Report"** option (default 10,000) in Options → Execution.

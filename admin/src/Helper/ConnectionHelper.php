@@ -51,6 +51,7 @@ class ConnectionHelper
         $encrypt    = (int) $params->get('dbencrypt', 1) === 1 ? 'yes' : 'no';
         $trustCert  = (int) $params->get('dbtrustcert', 0) === 1 ? 'yes' : 'no';
         $timeout    = (int) $params->get('dbtimeout', 30);
+        $readOnly   = (int) $params->get('dbapplicationintent', 0) === 1;
 
         if ($host === '' || $database === '' || $user === '') {
             throw new RuntimeException(
@@ -74,6 +75,15 @@ class ConnectionHelper
             $timeout
         );
 
+        if ($readOnly) {
+            // Signals read-only intent to SQL Server - on an Availability
+            // Group listener this can route the connection to a readable
+            // secondary. On a standalone server (no AG) it's simply a no-op,
+            // not an error. Opt-in (not default) since we can't verify the
+            // target server's topology from here.
+            $dsn .= ';ApplicationIntent=ReadOnly';
+        }
+
         try {
             $pdo = new PDO($dsn, $user, $pass, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -84,6 +94,14 @@ class ConnectionHelper
             // is allowed to run once connected, so a locked/slow report can't
             // hold a PHP request open indefinitely.
             $pdo->setAttribute(PDO::SQLSRV_ATTR_QUERY_TIMEOUT, (int) $params->get('dbquerytimeout', 30));
+
+            // PDO_SQLSRV does not accept "CharacterSet" as a DSN option (that's
+            // only valid for the older function-based sqlsrv_connect() API) -
+            // encoding is set via this attribute instead. UTF-8 is already the
+            // PDO_SQLSRV default, but setting it explicitly avoids depending on
+            // that default and protects against mojibake with diacritics
+            // (ľščťžýáíé) when the driver/server locale assumptions differ.
+            $pdo->setAttribute(PDO::SQLSRV_ATTR_ENCODING, PDO::SQLSRV_ENCODING_UTF8);
         } catch (PDOException $e) {
             throw new RuntimeException($e->getMessage(), 0, $e);
         }
