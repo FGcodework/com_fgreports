@@ -23,12 +23,19 @@ bod po bode. Podrobné technické detaily ku každej verzii sú v `CHANGELOG.md`
 | 17 | Routing/alias-based URL namiesto `id` v query stringu | — | **Poznámka do budúcna** — vyžaduje vlastnú router triedu, robiť ako samostatnú úlohu |
 
 ## Aktuálny stav
-- **Nainštalovaná/odporúčaná verzia: v1.7.3**
+- Tento súbor mapuje len **prvé** kolo analýzy (body 1-17 vyššie), po ktorom
+  nasledovalo druhé, samostatné kolo (od GROK) - viď `CHANGELOG.md` pre
+  verzie **1.7.7 a novšie** (cache row cap, prepareTable, HTTP 404 pre
+  neexistujúci report, DSN named instance fix, UTF-8 encoding, deprecated
+  API čistenie a ďalšie).
+- **Aktuálna verzia: pozri `<version>` v `com_fgreports.xml` alebo
+  najnovší záznam v `CHANGELOG.md`** - tento súhrnný súbor sa pri každej
+  ďalšej oprave neaktualizuje, aby nevznikalo riziko, že sa dve miesta so
+  zoznamom verzií rozídu.
 - Body 3 a 14 v pôvodnom číslovaní analýzy neboli poslané/neexistovali ako samostatné položky.
 - Tri body (15, 16, 17) zostali vedome nezmenené — dôvody sú uvedené vyššie a v chatovej histórii pri danom bode.
 
 ## Odporúčanie pre teba
-Po nasadení v1.7.3:
 1. Over si oprávnenia MS SQL loginu v Options — read-only na konkrétnych
    reportovacích views/tabuľkách je stále jediná skutočná bezpečnostná
    hranica (nie `ScriptGuard`).

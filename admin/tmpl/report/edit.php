@@ -14,8 +14,9 @@ use Joomla\CMS\Router\Route;
 
 /** @var \FG\Component\Fgreports\Administrator\View\Report\HtmlView $this */
 
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
+$this->getDocument()->getWebAssetManager()
+    ->useScript('keepalive')
+    ->useScript('form.validate');
 HTMLHelper::_('bootstrap.tooltip');
 $ajaxUrl = Route::_('index.php?option=com_fgreports&task=report.preview&format=raw', false);
 ?>

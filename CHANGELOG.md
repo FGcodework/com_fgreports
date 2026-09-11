@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.8.4
+Joomla 6 hygiene pass - checked each claim against core source before touching anything:
+- **Fixed** (confirmed `@deprecated 5.3.0 will be removed in 7.0`, with an active `trigger_deprecation()` call - already firing on the user's Joomla 5.4.8): replaced all `$this->get('Items')`/`'Pagination'`/`'State'`/`'FilterForm'`/`'ActiveFilters'`/`'Item'`/`'Form'` magic-proxy calls across all three `HtmlView` classes with direct `$this->getModel()->getItems()` etc. calls - the exact replacement named in the deprecation notice itself.
+- **Fixed** (confirmed `@deprecated 4.0 will be removed in 7.0` on both): replaced `HTMLHelper::_('behavior.keepalive')` and `HTMLHelper::_('behavior.formvalidator')` in the report edit template with direct `WebAssetManager::useScript('keepalive')`/`useScript('form.validate')` calls, per the deprecation notices' own suggested replacement. `HTMLHelper::_('bootstrap.tooltip')` is **not** deprecated (checked) - left unchanged.
+- **Not changed** (checked, and pushed back): the claim that "J4+ convention" language files drop the `en-GB.` filename prefix is only true for *core* components, which ship their language files in Joomla's central `administrator/language/<tag>/` folder - not in the component's own folder. No evidence this applies to third-party extensions, our current per-extension-folder convention is what every Joomla extension dev guide (and this project's own working, tested setup) uses, and changing it risks breaking language loading for unclear benefit. Left as-is.
+- Refreshed `CHANGELOG-ANALYSIS-REVIEW.md`'s stale "v1.7.3" version reference, which only ever covered the *first* review round - it now points to this file for everything from the second (GROK) round onward instead of trying to keep two version trackers in sync.
+
 ## 1.8.3
 - Fixed named SQL Server instances (`SQL01\SQLEXPRESS`) failing to connect. The DSN always appended `,<port>` to whatever was typed in the Server field, turning `SQL01\SQLEXPRESS` into `SQL01\SQLEXPRESS,1433` - a named instance resolves its own (usually dynamic) port via the SQL Browser service, and forcing an explicit port onto it typically breaks the connection. `ConnectionHelper` now only appends the configured Port when the Server field looks like a plain hostname/IP (no `\` or `,`); typing a named instance or an explicit `host,port` directly into Server now works as-is, with the Port field ignored in either case. Clarified this in the field's description.
 

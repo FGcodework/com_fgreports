@@ -25,11 +25,14 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null)
     {
-        $this->items         = $this->get('Items');
-        $this->pagination     = $this->get('Pagination');
-        $this->state          = $this->get('State');
-        $this->filterForm     = $this->get('FilterForm');
-        $this->activeFilters  = $this->get('ActiveFilters');
+        /** @var \FG\Component\Fgreports\Administrator\Model\ReportsModel $model */
+        $model = $this->getModel();
+
+        $this->items         = $model->getItems();
+        $this->pagination     = $model->getPagination();
+        $this->state          = $model->getState();
+        $this->filterForm     = $model->getFilterForm();
+        $this->activeFilters  = $model->getActiveFilters();
 
         $this->addToolbar();
 

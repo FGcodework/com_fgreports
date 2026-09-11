@@ -22,9 +22,12 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null)
     {
-        $this->item  = $this->get('Item');
-        $this->form  = $this->get('Form');
-        $this->state = $this->get('State');
+        /** @var \FG\Component\Fgreports\Administrator\Model\ReportModel $model */
+        $model = $this->getModel();
+
+        $this->item  = $model->getItem();
+        $this->form  = $model->getForm();
+        $this->state = $model->getState();
 
         $this->addToolbar();
 

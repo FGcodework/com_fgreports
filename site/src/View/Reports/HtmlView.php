@@ -17,7 +17,10 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null)
     {
-        $this->items = $this->get('Items');
+        /** @var \FG\Component\Fgreports\Site\Model\ReportsModel $model */
+        $model = $this->getModel();
+
+        $this->items = $model->getItems();
 
         return parent::display($tpl);
     }
