@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8.1
+- Fixed a missing, unpublished, or access-denied report returning HTTP 200 with an on-page error message instead of a proper 404. `Site\Model\ReportModel::getReportData()` now throws `Joomla\CMS\Router\Exception\RouteNotFoundException` (the same core mechanism components like com_content use for "article not found") for all three cases - the message text is unchanged and stays identical regardless of which case it was, so the response still can't be used to enumerate which one applies. This only affects the "report doesn't exist/isn't visible" case; a genuine SQL execution failure (bad script, connection error, etc.) still renders inline on a 200 page as before, which is a separate, legitimate situation.
+
 ## 1.8.0
 - **Fixed**: `created`, `created_by`, `modified`, `modified_by`, and `ordering` were never actually populated on save. `AdminModel::save()` calls a `prepareTable()` hook for exactly this purpose, but its base implementation is an empty stub ("Derived class will provide its own implementation if required.") - `ReportModel` never overrode it, so every report kept `created = 1000-01-01`, `created_by = 0`, `modified` never changed after creation, and every new report got `ordering = 0` (silently defeating the drag-and-drop ordering added in 1.7.0 for any two reports created without manually reordering in between). This is unrelated to and unmasked by the cache-key/cache-clear fix from 1.5.2/1.5.4 - that only ever protected report *content* freshness, never the audit columns. Added `ReportModel::prepareTable()` to set all five fields correctly, using `Table::getNextOrder()` for `ordering` on new records.
 

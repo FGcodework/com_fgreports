@@ -25,13 +25,22 @@ class ReportModel extends ItemModel
      * Result: ['title', 'description', 'columns', 'rows' (current page only),
      * 'error', 'total', 'limit', 'limitstart', 'sort_column', 'sort_dir',
      * 'truncated']
+     *
+     * @throws \Joomla\CMS\Router\Exception\RouteNotFoundException when the
+     *         report doesn't exist, isn't published, or isn't visible to the
+     *         current user's access level - a proper 404, not a 200 with an
+     *         error message on the page. The message is identical for all
+     *         three cases so the response can't be used to enumerate which
+     *         one it was.
      */
     public function getReportData(): array
     {
         $item = $this->getItem();
 
         if (!$item) {
-            return ['error' => Text::_('COM_FGREPORTS_ERROR_REPORT_NOT_FOUND')];
+            throw new \Joomla\CMS\Router\Exception\RouteNotFoundException(
+                Text::_('COM_FGREPORTS_ERROR_REPORT_NOT_FOUND')
+            );
         }
 
         $limit = (int) $item->page_limit > 0
