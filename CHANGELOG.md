@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8.0
+- **Fixed**: `created`, `created_by`, `modified`, `modified_by`, and `ordering` were never actually populated on save. `AdminModel::save()` calls a `prepareTable()` hook for exactly this purpose, but its base implementation is an empty stub ("Derived class will provide its own implementation if required.") - `ReportModel` never overrode it, so every report kept `created = 1000-01-01`, `created_by = 0`, `modified` never changed after creation, and every new report got `ordering = 0` (silently defeating the drag-and-drop ordering added in 1.7.0 for any two reports created without manually reordering in between). This is unrelated to and unmasked by the cache-key/cache-clear fix from 1.5.2/1.5.4 - that only ever protected report *content* freshness, never the audit columns. Added `ReportModel::prepareTable()` to set all five fields correctly, using `Table::getNextOrder()` for `ordering` on new records.
+
 ## 1.7.9
 - **Root cause found** for "Joomla never offers the update" (diagnosed via direct DB inspection of `#__extensions`, `#__update_sites`, `#__update_sites_extensions`, `#__updates` - the update-site registration and the extension link were both correct all along): `updates.xml`'s `<targetplatform version="6\..*">` only matches a Joomla version *starting with* `6.` - the site this has actually been developed and running on the whole time is **Joomla 5.4.8**, which never matched that pattern, so the update site correctly (from its own point of view) rejected every check and never populated `#__updates`.
   - Widened the regex to `[56]\..*` (Joomla 5 or 6), same fix pattern as a similar targetplatform mistake caught earlier in an unrelated FG plugin.

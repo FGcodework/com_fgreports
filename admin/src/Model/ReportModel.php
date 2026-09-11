@@ -63,6 +63,27 @@ class ReportModel extends AdminModel
     }
 
     /**
+     * AdminModel::save() calls this hook but its own base implementation is
+     * an empty stub ("Derived class will provide its own implementation if
+     * required.") - without overriding it, created/created_by/modified/
+     * modified_by/ordering are never actually populated.
+     */
+    protected function prepareTable($table): void
+    {
+        $date   = Factory::getDate()->toSql();
+        $userId = (int) Factory::getApplication()->getIdentity()->id;
+
+        if (empty($table->id)) {
+            $table->created    = $date;
+            $table->created_by = $userId;
+            $table->ordering   = $table->getNextOrder();
+        }
+
+        $table->modified    = $date;
+        $table->modified_by = $userId;
+    }
+
+    /**
      * Execute a report's SQL script (or an arbitrary script passed for a
      * not-yet-saved report) and return a limited preview result set.
      *
