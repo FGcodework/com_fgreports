@@ -22,6 +22,8 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null)
     {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+
         /** @var \FG\Component\Fgreports\Administrator\Model\ReportModel $model */
         $model = $this->getModel();
 
@@ -37,15 +39,21 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $isNew = ((int) $this->item->id === 0);
+        $user  = Factory::getApplication()->getIdentity();
+        $canSave = $isNew
+            ? $user->authorise('core.create', 'com_fgreports')
+            : $user->authorise('core.edit', 'com_fgreports');
 
         ToolbarHelper::title(
             Text::_($isNew ? 'COM_FGREPORTS_MANAGER_REPORT_NEW' : 'COM_FGREPORTS_MANAGER_REPORT_EDIT'),
             'pencil-2 fgreports'
         );
 
-        ToolbarHelper::apply('report.apply');
-        ToolbarHelper::save('report.save');
-        ToolbarHelper::save2new('report.save2new');
+        if ($canSave) {
+            ToolbarHelper::apply('report.apply');
+            ToolbarHelper::save('report.save');
+            ToolbarHelper::save2new('report.save2new');
+        }
 
         if ($isNew) {
             ToolbarHelper::cancel('report.cancel');

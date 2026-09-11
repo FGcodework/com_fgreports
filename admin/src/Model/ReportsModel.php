@@ -62,8 +62,10 @@ class ReportsModel extends ListModel
             )
         )
             ->select($db->quoteName('ag.title', 'access_level'))
+            ->select($db->quoteName('uc.name', 'editor'))
             ->from($db->quoteName('#__fgreports_reports', 'a'))
-            ->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
+            ->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
+            ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
         $search = (string) $this->getState('filter.search', '');
 

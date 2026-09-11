@@ -161,11 +161,34 @@ class ConnectionHelper
                 break;
             }
 
-            $rows[] = $row;
+            $rows[] = self::normalizeRow($row);
         }
 
         $statement->closeCursor();
 
         return ['rows' => $rows, 'truncated' => $truncated];
+    }
+
+    /**
+     * Converts each value in a fetched row to something that can always be
+     * safely cast to a display string later, without silently disappearing
+     * (bool false) or fatally erroring ((string) on a DateTime, which has no
+     * __toString()).
+     */
+    private static function normalizeRow(array $row): array
+    {
+        foreach ($row as $key => $value) {
+            if (\is_bool($value)) {
+                $row[$key] = $value ? '1' : '0';
+            } elseif ($value instanceof \DateTimeInterface) {
+                $row[$key] = $value->format('Y-m-d H:i:s');
+            } elseif (\is_object($value) || \is_array($value)) {
+                // Anything else unexpected (e.g. binary/resource-like data) -
+                // avoid a fatal (string) cast crashing the whole report.
+                $row[$key] = \Joomla\CMS\Language\Text::_('COM_FGREPORTS_UNSUPPORTED_VALUE');
+            }
+        }
+
+        return $row;
     }
 }

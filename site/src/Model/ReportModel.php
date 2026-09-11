@@ -146,7 +146,9 @@ class ReportModel extends ItemModel
 
     private function sortRows(array &$rows, string $column, string $dir): void
     {
-        usort($rows, function (array $a, array $b) use ($column, $dir) {
+        $collator = $this->getCollator();
+
+        usort($rows, function (array $a, array $b) use ($column, $dir, $collator) {
             $valA = $a[$column] ?? null;
             $valB = $b[$column] ?? null;
 
@@ -165,12 +167,35 @@ class ReportModel extends ItemModel
 
             if (is_numeric($valA) && is_numeric($valB)) {
                 $cmp = $valA <=> $valB;
+            } elseif ($collator !== null) {
+                // Locale-correct comparison (e.g. Slovak ľ/š/č/ť/ž/ý sort in
+                // their proper alphabetical position, not by raw byte value).
+                $cmp = $collator->compare((string) $valA, (string) $valB);
             } else {
                 $cmp = strnatcasecmp((string) $valA, (string) $valB);
             }
 
             return $dir === 'desc' ? -$cmp : $cmp;
         });
+    }
+
+    /**
+     * A Collator for the site's language gives correct alphabetical
+     * ordering for diacritics (Slovak ľščťžýáíé and similar). The intl
+     * extension isn't guaranteed to be installed, so this degrades to null
+     * (caller falls back to strnatcasecmp) when it isn't available.
+     */
+    private function getCollator(): ?\Collator
+    {
+        if (!class_exists(\Collator::class)) {
+            return null;
+        }
+
+        try {
+            return new \Collator(Factory::getApplication()->getLanguage()->getTag());
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     private function sanitizeCssClasses(string $classes): string

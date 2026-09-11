@@ -67,12 +67,12 @@ $this->getDocument()->getWebAssetManager()->useScript('table.columns');
                                 </th>
                             </tr>
                         </thead>
-                        <tbody<?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php endif; ?>>
+                        <tbody<?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
                             <?php foreach ($this->items as $i => $item) :
                                 $editLink = Route::_('index.php?option=com_fgreports&task=report.edit&id=' . (int) $item->id);
                                 $canCheckin = $user->authorise('core.manage', 'com_fgreports');
                             ?>
-                                <tr>
+                                <tr data-draggable-group="1">
                                     <td class="text-center">
                                         <?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
                                     </td>
@@ -95,6 +95,9 @@ $this->getDocument()->getWebAssetManager()->useScript('table.columns');
                                             </a>
                                         <?php else : ?>
                                             <?php echo $this->escape($item->title); ?>
+                                        <?php endif; ?>
+                                        <?php if ($item->checked_out) : ?>
+                                            <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'reports.', $canCheckin); ?>
                                         <?php endif; ?>
                                         <div class="small text-muted"><?php echo $this->escape($item->alias); ?></div>
                                     </th>

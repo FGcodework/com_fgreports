@@ -5,9 +5,11 @@
     <creationDate>2026-09</creationDate>
     <copyright>Copyright (C) Fero. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>1.8.4</version>
+    <version>1.9.0</version>
     <description>COM_FGREPORTS_XML_DESCRIPTION</description>
     <namespace path="src">FG\Component\Fgreports</namespace>
+    <scriptfile>script.php</scriptfile>
+    <minimum_joomla_version>5.4.0</minimum_joomla_version>
 
     <install>
         <sql>

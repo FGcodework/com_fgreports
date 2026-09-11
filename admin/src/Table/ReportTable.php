@@ -44,6 +44,8 @@ class ReportTable extends Table
             $this->alias = (string) time();
         }
 
+        $this->alias = $this->getUniqueAlias($this->alias);
+
         $notableKeyword = \FG\Component\Fgreports\Administrator\Helper\ScriptGuard::findBlockedKeyword($this->sql_script);
 
         if ($notableKeyword !== null) {
@@ -54,5 +56,42 @@ class ReportTable extends Table
         }
 
         return true;
+    }
+
+    /**
+     * Appends -2, -3, ... to the alias until it doesn't collide with another
+     * report's alias. Frontend lookups (menu items without an explicit id,
+     * or a future alias-based router) rely on the alias uniquely
+     * identifying one report - without this, a duplicate alias means
+     * whichever row the database happens to return first "wins",
+     * unpredictably.
+     */
+    private function getUniqueAlias(string $alias): string
+    {
+        $db = $this->getDatabase();
+        $candidate = $alias;
+        $suffix = 1;
+
+        while (true) {
+            $query = $db->getQuery(true)
+                ->select('COUNT(*)')
+                ->from($db->quoteName($this->getTableName()))
+                ->where($db->quoteName('alias') . ' = :alias')
+                ->bind(':alias', $candidate);
+
+            if (!empty($this->id)) {
+                $query->where($db->quoteName('id') . ' != :id')
+                    ->bind(':id', $this->id, \Joomla\Database\ParameterType::INTEGER);
+            }
+
+            $db->setQuery($query);
+
+            if ((int) $db->loadResult() === 0) {
+                return $candidate;
+            }
+
+            $suffix++;
+            $candidate = $alias . '-' . $suffix;
+        }
     }
 }

@@ -10,11 +10,13 @@
 
         <field
             name="published"
-            type="status"
+            type="list"
             label="JOPTION_SELECT_PUBLISHED"
             onchange="this.form.submit();"
         >
             <option value="">JOPTION_SELECT_PUBLISHED</option>
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
         </field>
     </fields>
 
