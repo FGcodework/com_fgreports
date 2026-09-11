@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8.2
+- Fixed the "New Report" admin submenu item. It used `onclick="Joomla.submitbutton('report.add')"`, which submits whichever `#adminForm` happens to exist on the *current* page - broken (or outright wrong) if you clicked it from Options, another component's screen, or anywhere without that exact form. Replaced with a plain link to `task=report.add`, matching core's own convention - `FormController::add()` (inherited, no override needed) already handles clearing the edit session state and redirecting to a blank edit form on its own, no JS submission trick required.
+
 ## 1.8.1
 - Fixed a missing, unpublished, or access-denied report returning HTTP 200 with an on-page error message instead of a proper 404. `Site\Model\ReportModel::getReportData()` now throws `Joomla\CMS\Router\Exception\RouteNotFoundException` (the same core mechanism components like com_content use for "article not found") for all three cases - the message text is unchanged and stays identical regardless of which case it was, so the response still can't be used to enumerate which one applies. This only affects the "report doesn't exist/isn't visible" case; a genuine SQL execution failure (bad script, connection error, etc.) still renders inline on a 200 page as before, which is a separate, legitimate situation.
 
