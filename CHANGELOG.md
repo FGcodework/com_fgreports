@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.1
+- Fixed cache not invalidating when the global MS SQL connection settings (server/database/user) change in Options. Editing a report's SQL script already invalidated its cache immediately (1.5.2/1.5.4, via a content-hash cache key + a group clear on save) - but repointing Options at a different server/database didn't, so a still-within-TTL cached report kept serving results fetched from the *old* connection. The cache key now also incorporates a signature of `dbhost`/`dbport`/`dbname`/`dbuser` (not the password, to avoid connection secret material touching a cache key at all - host/database/user changes are what actually signal "this is a different data source" anyway), so changing any of them produces a new key immediately instead of waiting for the old cache entry to expire naturally.
+
 ## 1.9.0
 A batch of smaller fixes and hygiene items, each checked against core/PHP behaviour before implementing:
 - **Checkout UI was invisible**: `checked_out`/`checked_out_time` were selected but never shown - a report checked out (e.g. edit form left open, browser closed) had no lock icon, no editor name, and no way to check it back in from the UI. Added the checkout lock icon (`jgrid.checkedout`) next to the title, with a joined `#__users` name for the editor; `AdminController::checkin()` was already inherited and needed no code.

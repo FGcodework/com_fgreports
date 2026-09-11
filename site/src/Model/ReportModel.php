@@ -207,8 +207,9 @@ class ReportModel extends ItemModel
 
     private function runWithCache(object $item): array
     {
-        $maxRows = (int) ComponentHelper::getParams('com_fgreports')->get('max_rows', 10000);
-        $ttl = (int) $item->cache_ttl;
+        $params  = ComponentHelper::getParams('com_fgreports');
+        $maxRows = (int) $params->get('max_rows', 10000);
+        $ttl     = (int) $item->cache_ttl;
 
         if ($ttl <= 0) {
             return ConnectionHelper::runScript($item->sql_script, $maxRows);
@@ -219,8 +220,20 @@ class ReportModel extends ItemModel
         $cache->setLifeTime($ttl);
         $cache->setCaching(true);
 
+        // Identifies which server/database this report's cached result
+        // actually came from - if the admin repoints Options at a
+        // different connection, the key changes and the old (now
+        // possibly-wrong) cached result is never read again, instead of
+        // staying visible until it naturally expires.
+        $connectionSignature = implode('|', [
+            $params->get('dbhost', ''),
+            $params->get('dbport', ''),
+            $params->get('dbname', ''),
+            $params->get('dbuser', ''),
+        ]);
+
         $cacheId = 'report_' . (int) $item->id . '_'
-            . hash('sha256', $item->sql_script . '|' . $item->modified . '|' . $maxRows);
+            . hash('sha256', $item->sql_script . '|' . $item->modified . '|' . $maxRows . '|' . $connectionSignature);
 
         $result = $cache->get(
             [ConnectionHelper::class, 'runScript'],
