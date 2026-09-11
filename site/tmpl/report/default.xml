@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_FGREPORTS_VIEW_REPORT_TITLE">
+        <message><![CDATA[COM_FGREPORTS_VIEW_REPORT_DESC]]></message>
+    </layout>
+
+    <fields name="request">
+        <fieldset name="request">
+            <field
+                name="id"
+                type="sql"
+                label="COM_FGREPORTS_FIELD_SELECT_REPORT_LABEL"
+                description="COM_FGREPORTS_FIELD_SELECT_REPORT_DESC"
+                required="true"
+                query="SELECT id, title FROM #__fgreports_reports WHERE published = 1 ORDER BY title ASC"
+                key_field="id"
+                value_field="title"
+            />
+        </fieldset>
+    </fields>
+</metadata>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_fgreports">
+    <section name="component">
+        <action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+        <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+        <action name="core.options" title="JACTION_OPTIONS" description="COM_FGREPORTS_ACCESS_OPTIONS_DESC" />
+        <action name="core.create" title="JACTION_CREATE" description="COM_FGREPORTS_ACCESS_CREATE_DESC" />
+        <action name="core.edit" title="JACTION_EDIT" description="COM_FGREPORTS_ACCESS_EDIT_DESC" />
+        <action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_FGREPORTS_ACCESS_EDITSTATE_DESC" />
+        <action name="core.delete" title="JACTION_DELETE" description="COM_FGREPORTS_ACCESS_DELETE_DESC" />
+        <action name="fgreports.execute" title="COM_FGREPORTS_ACCESS_EXECUTE" description="COM_FGREPORTS_ACCESS_EXECUTE_DESC" />
+    </section>
+</access>

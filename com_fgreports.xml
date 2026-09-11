@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+    <name>COM_FGREPORTS</name>
+    <author>Fero</author>
+    <creationDate>2026-09</creationDate>
+    <copyright>Copyright (C) Fero. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.7.5</version>
+    <description>COM_FGREPORTS_XML_DESCRIPTION</description>
+    <namespace path="src">FG\Component\Fgreports</namespace>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install/mysql/install.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall/mysql/uninstall.sql</file>
+        </sql>
+    </uninstall>
+
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+
+    <files folder="site">
+        <folder>src</folder>
+        <folder>tmpl</folder>
+    </files>
+
+    <languages folder="site/language">
+        <language tag="en-GB">en-GB/en-GB.com_fgreports.ini</language>
+        <language tag="sk-SK">sk-SK/sk-SK.com_fgreports.ini</language>
+    </languages>
+
+    <administration>
+        <menu img="class:fgreports">COM_FGREPORTS</menu>
+        <submenu>
+            <menu link="option=com_fgreports&amp;view=reports" view="reports">COM_FGREPORTS_MENU_REPORTS</menu>
+            <menu link="option=com_fgreports&amp;view=report&amp;layout=edit" view="report" onclick="Joomla.submitbutton('report.add')" alt="COM_FGREPORTS_MENU_NEW_REPORT">COM_FGREPORTS_MENU_NEW_REPORT</menu>
+        </submenu>
+        <files folder="admin">
+            <folder>fields</folder>
+            <folder>forms</folder>
+            <folder>services</folder>
+            <folder>sql</folder>
+            <folder>src</folder>
+            <folder>tmpl</folder>
+            <file>access.xml</file>
+            <file>config.xml</file>
+            <file>LICENSE.txt</file>
+        </files>
+        <languages folder="admin/language">
+            <language tag="en-GB">en-GB/en-GB.com_fgreports.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_fgreports.sys.ini</language>
+            <language tag="sk-SK">sk-SK/sk-SK.com_fgreports.ini</language>
+            <language tag="sk-SK">sk-SK/sk-SK.com_fgreports.sys.ini</language>
+        </languages>
+    </administration>
+</extension>

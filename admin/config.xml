@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config addfieldpath="/administrator/components/com_fgreports/fields">
+    <fieldset name="connection" label="COM_FGREPORTS_CONFIG_FIELDSET_CONNECTION">
+        <field
+            name="dbhost"
+            type="text"
+            default="localhost"
+            label="COM_FGREPORTS_CONFIG_DBHOST_LABEL"
+            description="COM_FGREPORTS_CONFIG_DBHOST_DESC"
+            required="true"
+        />
+        <field
+            name="dbport"
+            type="number"
+            default="1433"
+            min="1"
+            max="65535"
+            label="COM_FGREPORTS_CONFIG_DBPORT_LABEL"
+            description="COM_FGREPORTS_CONFIG_DBPORT_DESC"
+        />
+        <field
+            name="dbname"
+            type="text"
+            label="COM_FGREPORTS_CONFIG_DBNAME_LABEL"
+            description="COM_FGREPORTS_CONFIG_DBNAME_DESC"
+            required="true"
+        />
+        <field
+            name="dbuser"
+            type="text"
+            autocomplete="off"
+            label="COM_FGREPORTS_CONFIG_DBUSER_LABEL"
+            description="COM_FGREPORTS_CONFIG_DBUSER_DESC"
+            required="true"
+        />
+        <field
+            name="dbpass"
+            type="cryptpassword"
+            autocomplete="new-password"
+            label="COM_FGREPORTS_CONFIG_DBPASS_LABEL"
+            description="COM_FGREPORTS_CONFIG_DBPASS_DESC"
+        />
+        <field
+            name="dbencrypt"
+            type="radio"
+            layout="joomla.form.field.radio.switcher"
+            default="1"
+            label="COM_FGREPORTS_CONFIG_DBENCRYPT_LABEL"
+            description="COM_FGREPORTS_CONFIG_DBENCRYPT_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+            name="dbtrustcert"
+            type="radio"
+            layout="joomla.form.field.radio.switcher"
+            default="0"
+            label="COM_FGREPORTS_CONFIG_DBTRUSTCERT_LABEL"
+            description="COM_FGREPORTS_CONFIG_DBTRUSTCERT_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+            name="dbtimeout"
+            type="number"
+            default="30"
+            min="1"
+            max="300"
+            label="COM_FGREPORTS_CONFIG_DBTIMEOUT_LABEL"
+            description="COM_FGREPORTS_CONFIG_DBTIMEOUT_DESC"
+        />
+        <field
+            name="dbquerytimeout"
+            type="number"
+            default="30"
+            min="1"
+            max="600"
+            label="COM_FGREPORTS_CONFIG_DBQUERYTIMEOUT_LABEL"
+            description="COM_FGREPORTS_CONFIG_DBQUERYTIMEOUT_DESC"
+        />
+        <field
+            name="note_readonly"
+            type="note"
+            heading="JWARNING"
+            class="alert alert-warning"
+            label="COM_FGREPORTS_CONFIG_NOTE_READONLY_LABEL"
+            description="COM_FGREPORTS_CONFIG_NOTE_READONLY_DESC"
+        />
+    </fieldset>
+
+    <fieldset name="execution" label="COM_FGREPORTS_CONFIG_FIELDSET_EXECUTION">
+        <field
+            name="preview_row_limit"
+            type="number"
+            default="100"
+            min="1"
+            max="5000"
+            label="COM_FGREPORTS_CONFIG_PREVIEW_LIMIT_LABEL"
+            description="COM_FGREPORTS_CONFIG_PREVIEW_LIMIT_DESC"
+        />
+        <field
+            name="default_cache_ttl"
+            type="number"
+            default="0"
+            min="0"
+            max="1440"
+            label="COM_FGREPORTS_CONFIG_DEFAULT_CACHE_TTL_LABEL"
+            description="COM_FGREPORTS_CONFIG_DEFAULT_CACHE_TTL_DESC"
+        />
+        <field
+            name="frontend_page_limit"
+            type="number"
+            default="50"
+            min="1"
+            max="1000"
+            label="COM_FGREPORTS_CONFIG_FRONTEND_PAGE_LIMIT_LABEL"
+            description="COM_FGREPORTS_CONFIG_FRONTEND_PAGE_LIMIT_DESC"
+        />
+    </fieldset>
+
+    <fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+        <field
+            name="rules"
+            type="rules"
+            label="JCONFIG_PERMISSIONS_LABEL"
+            validate="rules"
+            filter="rules"
+            component="com_fgreports"
+            section="component"
+        />
+    </fieldset>
+
+    <inlinehelp button="hide" />
+</config>
