@@ -72,6 +72,7 @@ $ajaxUrl = Route::_('index.php?option=com_fgreports&task=report.preview&format=r
         'running'   => Text::_('COM_FGREPORTS_PREVIEW_RUNNING'),
         'noRows'    => Text::_('COM_FGREPORTS_PREVIEW_NO_ROWS'),
         'rowCount'  => Text::_('COM_FGREPORTS_PREVIEW_ROW_COUNT'),
+        'truncated' => Text::_('COM_FGREPORTS_PREVIEW_TRUNCATED'),
     ],
 ]); ?>
 </script>
@@ -166,7 +167,8 @@ $ajaxUrl = Route::_('index.php?option=com_fgreports&task=report.preview&format=r
 
                     var caption = document.createElement('p');
                     caption.className = 'text-muted small';
-                    caption.textContent = data.rows.length + ' ' + config.labels.rowCount;
+                    caption.textContent = data.rows.length + ' ' + config.labels.rowCount
+                        + (data.truncated ? ' - ' + config.labels.truncated : '');
                     resultBox.appendChild(caption);
                 })
                 .catch(function (err) {

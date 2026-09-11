@@ -26,6 +26,12 @@ $report = $this->report;
             <p class="fgreports-description"><?php echo htmlspecialchars($report['description'], ENT_QUOTES, 'UTF-8'); ?></p>
         <?php endif; ?>
 
+        <?php if (!empty($report['truncated'])) : ?>
+            <div class="alert alert-warning">
+                <?php echo Text::sprintf('COM_FGREPORTS_ROWS_TRUNCATED', (int) $report['total']); ?>
+            </div>
+        <?php endif; ?>
+
         <?php if (empty($report['rows'])) : ?>
             <div class="alert alert-info"><?php echo Text::_('COM_FGREPORTS_PREVIEW_NO_ROWS'); ?></div>
         <?php else : ?>

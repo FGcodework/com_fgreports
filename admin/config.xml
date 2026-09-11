@@ -101,6 +101,15 @@
             description="COM_FGREPORTS_CONFIG_PREVIEW_LIMIT_DESC"
         />
         <field
+            name="max_rows"
+            type="number"
+            default="10000"
+            min="100"
+            max="1000000"
+            label="COM_FGREPORTS_CONFIG_MAX_ROWS_LABEL"
+            description="COM_FGREPORTS_CONFIG_MAX_ROWS_DESC"
+        />
+        <field
             name="default_cache_ttl"
             type="number"
             default="0"

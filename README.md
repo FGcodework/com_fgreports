@@ -1,6 +1,6 @@
 # FG SQL Reports (com_fgreports)
 
-![Version](https://img.shields.io/badge/version-1.7.6-blue)
+![Version](https://img.shields.io/badge/version-1.7.7-blue)
 ![Joomla](https://img.shields.io/badge/Joomla-6.x-1a6877)
 ![License](https://img.shields.io/badge/license-GPL--2.0-orange)
 ![GitHub release](https://img.shields.io/github/v/release/ferino75/com_fgreports)
@@ -32,7 +32,9 @@ Built for deployment on a local network: Joomla runs on one local server
 - Encrypted connection password (libsodium, key derived from Joomla's own
   site secret) - the password field never round-trips the stored value
   into the page HTML
-- Separate connection and query timeouts
+- Separate connection and query timeouts, plus a global row cap (PHP-side
+  memory safeguard) so a report without a restrictive WHERE/TOP can't
+  exhaust memory - shows a warning instead of a silently incomplete result
 
 ## Requirements
 

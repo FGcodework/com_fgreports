@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.7
+- **Important**: report execution had no cap on the front end at all - `ConnectionHelper::runScript()` fetched every single row returned by the query into a PHP array, unconditionally. Front-end pagination only sliced that already-fully-buffered array afterwards, and a cached report kept the entire uncapped result in Joomla's cache too. A report script without a restrictive `WHERE`/`TOP` on a large table could exhaust `memory_limit` or the PHP request timeout - a read-only DB login does nothing to prevent this, since it's a resource-exhaustion problem, not a data-integrity one.
+  - Added a global **"Max Rows Per Report"** option (default 10,000) in Options → Execution.
+  - `ConnectionHelper::runScript()` now always takes a row limit, fetches one row past it purely to detect truncation, then calls `PDOStatement::closeCursor()` instead of reading the rest - so PHP never buffers more than the cap either way. Returns `['rows' => ..., 'truncated' => bool]` instead of a flat array.
+  - When a report is capped, the front end shows a warning ("Showing the first N rows - refine the SQL with TOP/WHERE") instead of silently displaying an incomplete result; the admin Preview panel shows the same kind of note.
+  - The cache key now also incorporates the configured cap, so changing "Max Rows Per Report" invalidates existing per-report caches instead of leaving them capped at the old value until they expire naturally.
+  - Note: SQL Server still executes the query to completion server-side either way (this is a client-side/PHP memory safeguard, not a server-side `OFFSET/FETCH`) - a genuinely expensive unrestricted query should still be fixed at the SQL level, and the existing query timeout (1.5.3) is the actual protection against a query that runs too long.
+
 ## 1.7.6
 - Added an update server: `updates.xml` at the repo root plus `<updateservers>` in the manifest, pointing at the raw file on the `master` branch (same pattern as the other FG extensions - update site XML with `<element>com_fgreports</element>` (components keep the `com_` prefix, unlike plugins), `<client>administrator</client>`, and a `targetplatform` regex scoped to `6\..*`). Once the GitHub repo/releases exist, Joomla's own Extension Manager can offer and install updates directly.
 - Translated `README.md` from Slovak to English and brought it up to date with everything implemented since it was first written (pagination, sorting, drag-and-drop ordering, `fgreports.execute`, encrypted password, per-report `stack_mobile`/`table_css_class`, query timeout) - the original only covered the state as of the very first release.

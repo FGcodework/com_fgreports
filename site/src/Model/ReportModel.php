@@ -23,7 +23,8 @@ class ReportModel extends ItemModel
 {
     /**
      * Result: ['title', 'description', 'columns', 'rows' (current page only),
-     * 'error', 'total', 'limit', 'limitstart', 'sort_column', 'sort_dir']
+     * 'error', 'total', 'limit', 'limitstart', 'sort_column', 'sort_dir',
+     * 'truncated']
      */
     public function getReportData(): array
     {
@@ -53,10 +54,12 @@ class ReportModel extends ItemModel
             'table_css_class' => $this->sanitizeCssClasses((string) $item->table_css_class),
             'sort_column'     => '',
             'sort_dir'        => $sortDir,
+            'truncated'       => false,
         ];
 
         try {
-            $allRows = $this->runWithCache($item);
+            $capped = $this->runWithCache($item);
+            $allRows = $capped['rows'];
             $columns = $allRows ? array_keys(reset($allRows)) : [];
 
             // Only sort by a column that actually exists in this result set -
@@ -79,6 +82,7 @@ class ReportModel extends ItemModel
             $result['columns'] = $columns;
             $result['total'] = $total;
             $result['limitstart'] = $limitstart;
+            $result['truncated'] = $capped['truncated'];
         } catch (Exception $e) {
             Log::add(
                 sprintf('com_fgreports report #%d execution failed: %s', $item->id, $e->getMessage()),
@@ -169,10 +173,11 @@ class ReportModel extends ItemModel
 
     private function runWithCache(object $item): array
     {
+        $maxRows = (int) ComponentHelper::getParams('com_fgreports')->get('max_rows', 10000);
         $ttl = (int) $item->cache_ttl;
 
         if ($ttl <= 0) {
-            return ConnectionHelper::runScript($item->sql_script);
+            return ConnectionHelper::runScript($item->sql_script, $maxRows);
         }
 
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
@@ -180,14 +185,17 @@ class ReportModel extends ItemModel
         $cache->setLifeTime($ttl);
         $cache->setCaching(true);
 
-        $cacheId = 'report_' . (int) $item->id . '_' . hash('sha256', $item->sql_script . '|' . $item->modified);
+        $cacheId = 'report_' . (int) $item->id . '_'
+            . hash('sha256', $item->sql_script . '|' . $item->modified . '|' . $maxRows);
 
         $result = $cache->get(
             [ConnectionHelper::class, 'runScript'],
-            [$item->sql_script],
+            [$item->sql_script, $maxRows],
             $cacheId
         );
 
-        return \is_array($result) ? $result : [];
+        return \is_array($result) && isset($result['rows'], $result['truncated'])
+            ? $result
+            : ['rows' => [], 'truncated' => false];
     }
 }

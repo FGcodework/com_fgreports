@@ -58,23 +58,24 @@ class ReportController extends FormController
         $model = $this->getModel('Report', 'Administrator', ['ignore_request' => true]);
 
         try {
-            $rows = $model->preview($sqlScript);
-            $this->sendJson(true, $warning, $rows);
+            $preview = $model->preview($sqlScript);
+            $this->sendJson(true, $warning, $preview['rows'], $preview['truncated']);
         } catch (Exception $e) {
             $this->sendJson(false, $e->getMessage());
         }
     }
 
-    private function sendJson(bool $success, string $message = '', array $data = []): void
+    private function sendJson(bool $success, string $message = '', array $data = [], bool $truncated = false): void
     {
         $app = Factory::getApplication();
         $app->setHeader('Content-Type', 'application/json; charset=utf-8', true);
         $app->sendHeaders();
 
         echo json_encode([
-            'success' => $success,
-            'message' => $message,
-            'rows'    => $data,
+            'success'   => $success,
+            'message'   => $message,
+            'rows'      => $data,
+            'truncated' => $truncated,
         ]);
 
         $app->close();

@@ -66,6 +66,7 @@ class ReportModel extends AdminModel
      * Execute a report's SQL script (or an arbitrary script passed for a
      * not-yet-saved report) and return a limited preview result set.
      *
+     * @return array{rows: array, truncated: bool}
      * @throws Exception on connection or query failure - caller shows the message.
      */
     public function preview(string $sqlScript): array

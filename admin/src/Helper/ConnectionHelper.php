@@ -92,15 +92,23 @@ class ConnectionHelper
     }
 
     /**
-     * Run a report SQL script and return the result set as an array of
-     * associative arrays. Only the first result set is returned.
+     * Run a report SQL script and return up to $rowLimit rows, plus whether
+     * the result was actually cut off (i.e. the query had more rows than
+     * that). Only the first result set is returned.
      *
-     * @param   string    $sqlScript  The raw SQL script stored on the report.
-     * @param   int|null  $rowLimit   Optional cap on the number of rows fetched.
+     * $rowLimit is always enforced in PHP - it does not (and cannot, given
+     * the script is opaque) inject a TOP/OFFSET-FETCH into the SQL itself.
+     * SQL Server will still execute the full query server-side; this only
+     * bounds how much of the result PHP actually buffers in memory, by
+     * fetching one row past the limit (to detect truncation) and then
+     * closing the cursor instead of reading the rest.
      *
-     * @return  array
+     * @param   string  $sqlScript  The raw SQL script stored on the report.
+     * @param   int     $rowLimit   Maximum number of rows to return.
+     *
+     * @return  array{rows: array, truncated: bool}
      */
-    public static function runScript(string $sqlScript, ?int $rowLimit = null): array
+    public static function runScript(string $sqlScript, int $rowLimit): array
     {
         $pdo = self::getConnection();
 
@@ -108,16 +116,21 @@ class ConnectionHelper
 
         $rows = [];
         $count = 0;
+        $truncated = false;
 
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $rows[] = $row;
             $count++;
 
-            if ($rowLimit !== null && $count >= $rowLimit) {
+            if ($count > $rowLimit) {
+                $truncated = true;
                 break;
             }
+
+            $rows[] = $row;
         }
 
-        return $rows;
+        $statement->closeCursor();
+
+        return ['rows' => $rows, 'truncated' => $truncated];
     }
 }
