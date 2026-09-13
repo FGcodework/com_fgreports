@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
     IMPORTANT: <sha256> must be regenerated for every release - it's the
     checksum of THIS EXACT com_fgreports_vX.Y.Z.zip file. After building a
@@ -15,16 +15,16 @@
         <type>component</type>
         <client>administrator</client>
         <version>1.9.1</version>
-        <infourl title="FG SQL Reports">https://github.com/ferino75/com_fgreports</infourl>
+        <infourl title="FG SQL Reports">https://github.com/FGcodework/com_fgreports</infourl>
         <downloads>
-            <downloadurl type="full" format="zip">https://github.com/ferino75/com_fgreports/releases/download/v1.9.1/com_fgreports_v1.9.1.zip</downloadurl>
+            <downloadurl type="full" format="zip">https://github.com/FGcodework/com_fgreports/releases/download/v1.9.1/com_fgreports_v1.9.1.zip</downloadurl>
         </downloads>
         <sha256>9815f4ff49b1335bcf2e7bc8529621f3fa02c70ad58f218bcfdefb8271836b2c</sha256>
         <tags>
             <tag>stable</tag>
         </tags>
         <maintainer>Fero</maintainer>
-        <maintainerurl>https://github.com/ferino75</maintainerurl>
+        <maintainerurl>https://github.com/FGcodework</maintainerurl>
         <targetplatform name="joomla" version="[56]\..*" />
     </update>
 </updates>
