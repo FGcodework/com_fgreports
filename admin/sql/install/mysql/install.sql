@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `#__fgreports_reports` (
     `page_limit` INT(11) NOT NULL DEFAULT 0,
     `stack_mobile` TINYINT(1) NOT NULL DEFAULT 1,
     `table_css_class` VARCHAR(255) NOT NULL DEFAULT '',
+    `enable_sorting` TINYINT(1) NOT NULL DEFAULT 1,
     `access` INT(11) UNSIGNED NOT NULL DEFAULT 1,
     `published` TINYINT(3) NOT NULL DEFAULT 0,
     `ordering` INT(11) NOT NULL DEFAULT 0,

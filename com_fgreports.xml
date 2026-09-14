@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade">
     <name>COM_FGREPORTS</name>
     <author>Fero</author>
     <creationDate>2026-09</creationDate>
     <copyright>Copyright (C) Fero. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>1.9.1</version>
+    <version>1.9.2</version>
     <description>COM_FGREPORTS_XML_DESCRIPTION</description>
     <namespace path="src">FG\Component\Fgreports</namespace>
     <scriptfile>script.php</scriptfile>
@@ -64,6 +64,6 @@
     </administration>
 
     <updateservers>
-        <server type="extension" name="FG SQL Reports Update Site">https://raw.githubusercontent.com/FGcodework/com_fgreports/master/updates.xml</server>
+        <server type="extension" name="FG SQL Reports Update Site">https://raw.githubusercontent.com/ferino75/com_fgreports/master/updates.xml</server>
     </updateservers>
 </extension>

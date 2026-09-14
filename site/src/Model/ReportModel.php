@@ -47,7 +47,8 @@ class ReportModel extends ItemModel
             ? (int) $item->page_limit
             : (int) ComponentHelper::getParams('com_fgreports')->get('frontend_page_limit', 50);
         $limitstart = Factory::getApplication()->getInput()->getUint('limitstart', 0);
-        $sortColumn = Factory::getApplication()->getInput()->getString('sort', '');
+        $sortingEnabled = (bool) $item->enable_sorting;
+        $sortColumn = $sortingEnabled ? Factory::getApplication()->getInput()->getString('sort', '') : '';
         $sortDir = strtolower(Factory::getApplication()->getInput()->getString('sort_dir', 'asc')) === 'desc' ? 'desc' : 'asc';
 
         $result = [
@@ -63,6 +64,7 @@ class ReportModel extends ItemModel
             'table_css_class' => $this->sanitizeCssClasses((string) $item->table_css_class),
             'sort_column'     => '',
             'sort_dir'        => $sortDir,
+            'sorting_enabled' => $sortingEnabled,
             'truncated'       => false,
         ];
 

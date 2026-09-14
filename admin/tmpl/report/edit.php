@@ -56,6 +56,7 @@ $ajaxUrl = Route::_('index.php?option=com_fgreports&task=report.preview&format=r
                     <?php echo $this->form->renderField('page_limit'); ?>
                     <?php echo $this->form->renderField('stack_mobile'); ?>
                     <?php echo $this->form->renderField('table_css_class'); ?>
+                    <?php echo $this->form->renderField('enable_sorting'); ?>
                 </div>
             </div>
         </div>

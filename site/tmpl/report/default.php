@@ -45,6 +45,14 @@ $report = $this->report;
                     <thead>
                         <tr>
                             <?php foreach ($report['columns'] as $col) :
+                                if (empty($report['sorting_enabled'])) : ?>
+                                    <th scope="col">
+                                        <?php echo htmlspecialchars((string) $col, ENT_QUOTES, 'UTF-8'); ?>
+                                    </th>
+                                <?php
+                                    continue;
+                                endif;
+
                                 $isSorted = $report['sort_column'] === $col;
                                 $nextDir  = ($isSorted && $report['sort_dir'] === 'asc') ? 'desc' : 'asc';
 

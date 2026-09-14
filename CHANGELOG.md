@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.2
+- Added a per-report "Povoliť zoradenie" (Enable Column Sorting) toggle, default on. When off, column headers render as plain text instead of sort links, and - importantly - the front end ignores `sort`/`sort_dir` query-string parameters entirely for that report, not just hiding the UI, so sorting can't be forced back on by editing the URL for a report where row order is meant to be fixed. New `enable_sorting` column (`admin/sql/updates/mysql/1.9.2.sql`).
+
 ## 1.9.1
 - Fixed cache not invalidating when the global MS SQL connection settings (server/database/user) change in Options. Editing a report's SQL script already invalidated its cache immediately (1.5.2/1.5.4, via a content-hash cache key + a group clear on save) - but repointing Options at a different server/database didn't, so a still-within-TTL cached report kept serving results fetched from the *old* connection. The cache key now also incorporates a signature of `dbhost`/`dbport`/`dbname`/`dbuser` (not the password, to avoid connection secret material touching a cache key at all - host/database/user changes are what actually signal "this is a different data source" anyway), so changing any of them produces a new key immediately instead of waiting for the old cache entry to expire naturally.
 
