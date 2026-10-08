@@ -1,25 +1,18 @@
 <p align="center">
-  <img src="assets/logo.webp" alt="plg_system_fgemailremover logo" width="128" height="128">
+  <img src="assets/logo.webp" alt="com_fgreports logo" width="128" height="128">
 </p>
 
-<h1 align="center">FG Email Remover plugin for Joomla</h1>
+<h1 align="center">FG SQL Reports for Joomla</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/github/v/release/FGcodework/plg_system_fgemailremover?color=FF6B4A&label=release" alt="Latest release">
-  <img src="https://img.shields.io/badge/Joomla-3.10%20--%206.x-blue.svg?logo=joomla&logoColor=white" alt="Joomla">
-  <img src="https://img.shields.io/badge/PHP-7.4%2B-purple.svg?logo=php&logoColor=white" alt="PHP">
+  <img src="https://img.shields.io/github/v/release/FGcodework/com_fgreports?color=FF6B4A&label=release" alt="Latest release">
+  <img src="https://img.shields.io/badge/Joomla-5.4%2B%20%7C%206.x-1a6877.svg?logo=joomla&logoColor=white" alt="Joomla">
+  <img src="https://img.shields.io/badge/PHP-8.1%2B-purple.svg?logo=php&logoColor=white" alt="PHP">
   <a href="https://extensions.joomla.org/extension/access-a-security/site-security/email-remover/"><img src="https://img.shields.io/badge/Joomla!%20Extensions%20Directory%E2%84%A2-EmailRemover-blue" alt="JED"></a>
   <img src="https://img.shields.io/badge/license-GPL--2.0-green.svg" alt="License">
-  <img src="https://img.shields.io/github/downloads/FGcodework/plg_system_fgemailremover/total?cacheSeconds=3600&color=brown" alt="Downloads">
+  <img src="https://img.shields.io/github/downloads/FGcodework/com_fgreports/total?cacheSeconds=3600&color=brown" alt="Downloads">
   <a href="https://ko-fi.com/FGcodework"><img src="https://img.shields.io/badge/support-Ko--fi-F16061.svg?logo=ko-fi&logoColor=white" alt="Support on Ko-fi"></a>
 </p>
-
-# FG SQL Reports
-
-![Version](https://img.shields.io/badge/version-1.9.2-blue)
-![Joomla](https://img.shields.io/badge/Joomla-5.4%2B%20%7C%206.x-1a6877)
-![License](https://img.shields.io/badge/license-GPL--2.0-orange)
-![GitHub release](https://img.shields.io/github/v/release/ferino75/com_fgreports)
 
 A native Joomla component (namespaced MVC, PSR-4) that displays reports
 from an MS SQL Server database on the front end. One SQL script = one report, rendered as a
