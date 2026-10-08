@@ -1,4 +1,4 @@
-# FG SQL Reports (com_fgreports)
+# FG SQL Reports
 
 ![Version](https://img.shields.io/badge/version-1.9.2-blue)
 ![Joomla](https://img.shields.io/badge/Joomla-5.4%2B%20%7C%206.x-1a6877)
