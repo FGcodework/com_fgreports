@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Site\View\Report;
+namespace FG\Component\Fgsqlreports\Site\View\Report;
 
 defined('_JEXEC') or die;
 
@@ -22,7 +22,7 @@ class HtmlView extends BaseHtmlView
         $id    = $app->getInput()->getInt('id', 0);
         $alias = $app->getInput()->getString('alias', '');
 
-        /** @var \FG\Component\Fgreports\Site\Model\ReportModel $model */
+        /** @var \FG\Component\Fgsqlreports\Site\Model\ReportModel $model */
         $model = $this->getModel();
         $model->setState('report.id', $id);
         $model->setState('report.alias', $alias);

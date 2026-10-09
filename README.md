@@ -1,16 +1,15 @@
 <p align="center">
-  <img src="assets/logo.webp" alt="com_fgreports logo" width="128" height="128">
+  <img src="assets/logo.webp" alt="com_fgsqlreports logo" width="128" height="128">
 </p>
 
 <h1 align="center">FG SQL Reports for Joomla</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/github/v/release/FGcodework/com_fgreports?color=FF6B4A&label=release" alt="Latest release">
+  <img src="https://img.shields.io/github/v/release/FGcodework/com_fgsqlreports?color=FF6B4A&label=release" alt="Latest release">
   <img src="https://img.shields.io/badge/Joomla-5.4%2B%20%7C%206.x-1a6877.svg?logo=joomla&logoColor=white" alt="Joomla">
   <img src="https://img.shields.io/badge/PHP-8.1%2B-purple.svg?logo=php&logoColor=white" alt="PHP">
-  <a href="https://extensions.joomla.org/extension/access-a-security/site-security/email-remover/"><img src="https://img.shields.io/badge/Joomla!%20Extensions%20Directory%E2%84%A2-EmailRemover-blue" alt="JED"></a>
   <img src="https://img.shields.io/badge/license-GPL--2.0-green.svg" alt="License">
-  <img src="https://img.shields.io/github/downloads/FGcodework/com_fgreports/total?cacheSeconds=3600&color=brown" alt="Downloads">
+  <img src="https://img.shields.io/github/downloads/FGcodework/com_fgsqlreports/total?cacheSeconds=3600&color=brown" alt="Downloads">
   <a href="https://ko-fi.com/FGcodework"><img src="https://img.shields.io/badge/support-Ko--fi-F16061.svg?logo=ko-fi&logoColor=white" alt="Support on Ko-fi"></a>
 </p>
 
@@ -61,7 +60,7 @@ Built for deployment on a local network: Joomla runs on one local server
   on the tables/views you want to report on
 
 This requirement is about the database Joomla itself stores its own
-content in (`#__fgreports_reports` and everything else) - it has nothing
+content in (`#__fgsqlreports_reports` and everything else) - it has nothing
 to do with the reported-on MS SQL Server, which is always MS SQL
 regardless of what Joomla runs on.
 
@@ -80,6 +79,19 @@ regardless of what Joomla runs on.
    specific report, chosen from a dropdown in the menu item's Required
    Settings).
 
+### Upgrading from `com_fgreports` (before 2.0.0)
+The component was renamed to `com_fgsqlreports` in 2.0.0. Joomla treats a
+different element name as a different extension, so this is a **new
+install, not an update**:
+
+1. Install `com_fgsqlreports_v2.0.0.zip` while the old component is still
+   installed. Your reports and Options (including the already-encrypted
+   password) are copied over automatically.
+2. Re-create your front-end menu items with the new component (old ones
+   point to `com_fgreports`) and re-check the `fgsqlreports.execute`
+   permission and component permissions in Options → Permissions.
+3. Uninstall the old `com_fgreports`.
+
 ## Security - important
 
 A report runs exactly as written - no query builder, no parsing. The
@@ -92,10 +104,10 @@ actual protection against unwanted writes/deletes is:
    be able to reach every table in the database.
 2. Editing/creating reports (i.e. direct access to running arbitrary SQL)
    is gated in Joomla's ACL by `core.edit`/`core.create` on
-   `com_fgreports` - Super Users by default. Adjust this in Users →
+   `com_fgsqlreports` - Super Users by default. Adjust this in Users →
    Access Levels if you want to let other trusted groups in. The
    interactive "Run Preview" button additionally requires the
-   `fgreports.execute` action, since being able to create/edit a report
+   `fgsqlreports.execute` action, since being able to create/edit a report
    and being able to run ad-hoc SQL interactively are different levels of
    trust.
 3. Both on Save and on Preview, the component shows a **non-blocking
@@ -118,7 +130,7 @@ actual protection against unwanted writes/deletes is:
 
 Each report has its own **Cache (minutes)** field. `0` = the query runs
 on every page view. Any other value caches the result for that many
-minutes (Joomla cache, group `com_fgreports`), so the database isn't hit
+minutes (Joomla cache, group `com_fgsqlreports`), so the database isn't hit
 on every visit.
 
 **Important:** enabling cache means the report's result is physically
@@ -144,7 +156,7 @@ be set globally (Options → Execution) or overridden per report.
 ## Known limitations / roadmap
 
 - Reports don't yet support front-end parameters/filters (e.g. a date
-  range) - the `params` column on `#__fgreports_reports` is already
+  range) - the `params` column on `#__fgsqlreports_reports` is already
   reserved for this, so adding it later won't need a schema change.
 - Only one global MS SQL connection is supported (shared by every
   report).

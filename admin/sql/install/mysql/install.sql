@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `#__fgreports_reports` (
+CREATE TABLE IF NOT EXISTS `#__fgsqlreports_reports` (
     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(255) NOT NULL DEFAULT '',
     `alias` VARCHAR(255) NOT NULL DEFAULT '',

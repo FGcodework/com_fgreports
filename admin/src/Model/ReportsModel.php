@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Administrator\Model;
+namespace FG\Component\Fgsqlreports\Administrator\Model;
 
 defined('_JEXEC') or die;
 
@@ -63,7 +63,7 @@ class ReportsModel extends ListModel
         )
             ->select($db->quoteName('ag.title', 'access_level'))
             ->select($db->quoteName('uc.name', 'editor'))
-            ->from($db->quoteName('#__fgreports_reports', 'a'))
+            ->from($db->quoteName('#__fgsqlreports_reports', 'a'))
             ->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
             ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 

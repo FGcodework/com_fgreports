@@ -1,15 +1,15 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Administrator\Model;
+namespace FG\Component\Fgsqlreports\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use FG\Component\Fgreports\Administrator\Helper\ConnectionHelper;
+use FG\Component\Fgsqlreports\Administrator\Helper\ConnectionHelper;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -17,7 +17,7 @@ use Joomla\CMS\Table\Table;
 
 class ReportModel extends AdminModel
 {
-    public $typeAlias = 'com_fgreports.report';
+    public $typeAlias = 'com_fgsqlreports.report';
 
     public function getTable($type = 'Report', $prefix = 'Administrator', $config = [])
     {
@@ -26,7 +26,7 @@ class ReportModel extends AdminModel
 
     protected function loadFormData()
     {
-        $data = Factory::getApplication()->getUserState('com_fgreports.edit.report.data', []);
+        $data = Factory::getApplication()->getUserState('com_fgsqlreports.edit.report.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -38,7 +38,7 @@ class ReportModel extends AdminModel
     public function getForm($data = [], $loadData = true)
     {
         $form = $this->loadForm(
-            'com_fgreports.report',
+            'com_fgsqlreports.report',
             'report',
             ['control' => 'jform', 'load_data' => $loadData]
         );
@@ -55,7 +55,7 @@ class ReportModel extends AdminModel
         $item = parent::getItem($pk);
 
         if ($item !== false && empty($item->id)) {
-            $item->cache_ttl = (int) \Joomla\CMS\Component\ComponentHelper::getParams('com_fgreports')
+            $item->cache_ttl = (int) \Joomla\CMS\Component\ComponentHelper::getParams('com_fgsqlreports')
                 ->get('default_cache_ttl', 0);
         }
 
@@ -92,7 +92,7 @@ class ReportModel extends AdminModel
      */
     public function preview(string $sqlScript): array
     {
-        $params = \Joomla\CMS\Component\ComponentHelper::getParams('com_fgreports');
+        $params = \Joomla\CMS\Component\ComponentHelper::getParams('com_fgsqlreports');
         $limit  = (int) $params->get('preview_row_limit', 100);
 
         return ConnectionHelper::runScript($sqlScript, $limit);
@@ -109,8 +109,8 @@ class ReportModel extends AdminModel
             // entries don't just sit on disk until they naturally expire.
             try {
                 Factory::getContainer()->get(\Joomla\CMS\Cache\CacheControllerFactoryInterface::class)
-                    ->createCacheController('callback', ['defaultgroup' => 'com_fgreports'])
-                    ->clean('com_fgreports');
+                    ->createCacheController('callback', ['defaultgroup' => 'com_fgsqlreports'])
+                    ->clean('com_fgsqlreports');
             } catch (Exception $e) {
                 // Non-fatal - the content-hash cache key already prevents
                 // stale results from being served either way.

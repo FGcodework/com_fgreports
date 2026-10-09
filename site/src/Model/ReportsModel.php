@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Site\Model;
+namespace FG\Component\Fgsqlreports\Site\Model;
 
 defined('_JEXEC') or die;
 
@@ -42,7 +42,7 @@ class ReportsModel extends ListModel
         $user = Factory::getApplication()->getIdentity();
 
         $query->select($db->quoteName(['a.id', 'a.title', 'a.alias', 'a.description']))
-            ->from($db->quoteName('#__fgreports_reports', 'a'))
+            ->from($db->quoteName('#__fgsqlreports_reports', 'a'))
             ->where($db->quoteName('a.published') . ' = 1');
 
         $levels = $user->getAuthorisedViewLevels();

@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS `#__fgreports_reports`;
+DROP TABLE IF EXISTS `#__fgsqlreports_reports`;

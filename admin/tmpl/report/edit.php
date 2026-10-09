@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
@@ -12,16 +12,16 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var \FG\Component\Fgreports\Administrator\View\Report\HtmlView $this */
+/** @var \FG\Component\Fgsqlreports\Administrator\View\Report\HtmlView $this */
 
 $this->getDocument()->getWebAssetManager()
     ->useScript('keepalive')
     ->useScript('form.validate');
 HTMLHelper::_('bootstrap.tooltip');
-$ajaxUrl = Route::_('index.php?option=com_fgreports&task=report.preview&format=raw', false);
+$ajaxUrl = Route::_('index.php?option=com_fgsqlreports&task=report.preview&format=raw', false);
 ?>
-<form action="<?php echo Route::_('index.php?option=com_fgreports&layout=edit&id=' . (int) $this->item->id); ?>"
-    method="post" name="adminForm" id="adminForm" class="form-validate" aria-label="<?php echo Text::_('COM_FGREPORTS_MANAGER_REPORT_EDIT'); ?>">
+<form action="<?php echo Route::_('index.php?option=com_fgsqlreports&layout=edit&id=' . (int) $this->item->id); ?>"
+    method="post" name="adminForm" id="adminForm" class="form-validate" aria-label="<?php echo Text::_('COM_FGSQLREPORTS_MANAGER_REPORT_EDIT'); ?>">
 
     <div class="row">
         <div class="col-lg-9">
@@ -32,16 +32,16 @@ $ajaxUrl = Route::_('index.php?option=com_fgreports&task=report.preview&format=r
                     <?php echo $this->form->renderField('description'); ?>
                     <?php echo $this->form->renderField('sql_script'); ?>
 
-                    <?php if (Factory::getApplication()->getIdentity()->authorise('fgreports.execute', 'com_fgreports')) : ?>
+                    <?php if (Factory::getApplication()->getIdentity()->authorise('fgsqlreports.execute', 'com_fgsqlreports')) : ?>
                         <p>
-                            <button type="button" class="btn btn-secondary" id="fgreports-preview-btn">
+                            <button type="button" class="btn btn-secondary" id="fgsqlreports-preview-btn">
                                 <span class="icon-play" aria-hidden="true"></span>
-                                <?php echo Text::_('COM_FGREPORTS_BUTTON_PREVIEW'); ?>
+                                <?php echo Text::_('COM_FGSQLREPORTS_BUTTON_PREVIEW'); ?>
                             </button>
-                            <span id="fgreports-preview-status" class="ms-2"></span>
+                            <span id="fgsqlreports-preview-status" class="ms-2"></span>
                         </p>
 
-                        <div id="fgreports-preview-result" class="table-responsive"></div>
+                        <div id="fgsqlreports-preview-result" class="table-responsive"></div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -66,15 +66,15 @@ $ajaxUrl = Route::_('index.php?option=com_fgreports&task=report.preview&format=r
     <?php echo HTMLHelper::_('form.token'); ?>
 </form>
 
-<script id="fgreports-preview-config" type="application/json">
+<script id="fgsqlreports-preview-config" type="application/json">
 <?php echo json_encode([
     'ajaxUrl'      => $ajaxUrl,
     'sqlFieldName' => 'jform[sql_script]',
     'labels'       => [
-        'running'   => Text::_('COM_FGREPORTS_PREVIEW_RUNNING'),
-        'noRows'    => Text::_('COM_FGREPORTS_PREVIEW_NO_ROWS'),
-        'rowCount'  => Text::_('COM_FGREPORTS_PREVIEW_ROW_COUNT'),
-        'truncated' => Text::_('COM_FGREPORTS_PREVIEW_TRUNCATED'),
+        'running'   => Text::_('COM_FGSQLREPORTS_PREVIEW_RUNNING'),
+        'noRows'    => Text::_('COM_FGSQLREPORTS_PREVIEW_NO_ROWS'),
+        'rowCount'  => Text::_('COM_FGSQLREPORTS_PREVIEW_ROW_COUNT'),
+        'truncated' => Text::_('COM_FGSQLREPORTS_PREVIEW_TRUNCATED'),
     ],
 ]); ?>
 </script>
@@ -83,10 +83,10 @@ $ajaxUrl = Route::_('index.php?option=com_fgreports&task=report.preview&format=r
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function () {
-        var btn = document.getElementById('fgreports-preview-btn');
-        var status = document.getElementById('fgreports-preview-status');
-        var resultBox = document.getElementById('fgreports-preview-result');
-        var config = JSON.parse(document.getElementById('fgreports-preview-config').textContent);
+        var btn = document.getElementById('fgsqlreports-preview-btn');
+        var status = document.getElementById('fgsqlreports-preview-status');
+        var resultBox = document.getElementById('fgsqlreports-preview-result');
+        var config = JSON.parse(document.getElementById('fgsqlreports-preview-config').textContent);
 
         if (!btn) {
             return;

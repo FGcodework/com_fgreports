@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
@@ -19,8 +19,8 @@ use Joomla\DI\ServiceProviderInterface;
 return new class implements ServiceProviderInterface {
     public function register(Container $container): void
     {
-        $container->registerServiceProvider(new MVCFactory('\\FG\\Component\\Fgreports'));
-        $container->registerServiceProvider(new ComponentDispatcherFactory('\\FG\\Component\\Fgreports'));
+        $container->registerServiceProvider(new MVCFactory('\\FG\\Component\\Fgsqlreports'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\FG\\Component\\Fgsqlreports'));
 
         $container->set(
             ComponentInterface::class,

@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Administrator\Controller;
+namespace FG\Component\Fgsqlreports\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
@@ -20,7 +20,7 @@ class ReportController extends FormController
      * AJAX task: run the SQL script currently in the edit form (not
      * necessarily saved yet) and return a JSON preview. Requires
      * core.edit/core.create (same as editing the form) AND the dedicated
-     * fgreports.execute action - the latter exists specifically because
+     * fgsqlreports.execute action - the latter exists specifically because
      * "can create/edit reports" and "can interactively run arbitrary SQL
      * against the reporting database right now, without saving anything"
      * are different levels of trust and some sites may want to grant one
@@ -33,9 +33,9 @@ class ReportController extends FormController
         $app  = Factory::getApplication();
         $user = $app->getIdentity();
 
-        $canEdit = $user->authorise('core.edit', 'com_fgreports') || $user->authorise('core.create', 'com_fgreports');
+        $canEdit = $user->authorise('core.edit', 'com_fgsqlreports') || $user->authorise('core.create', 'com_fgsqlreports');
 
-        if (!$canEdit || !$user->authorise('fgreports.execute', 'com_fgreports')) {
+        if (!$canEdit || !$user->authorise('fgsqlreports.execute', 'com_fgsqlreports')) {
             $this->sendJson(false, Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
             return;
@@ -44,17 +44,17 @@ class ReportController extends FormController
         $sqlScript = $app->getInput()->post->get('sql_script', '', 'raw');
 
         if (trim($sqlScript) === '') {
-            $this->sendJson(false, Text::_('COM_FGREPORTS_ERROR_SQL_REQUIRED'));
+            $this->sendJson(false, Text::_('COM_FGSQLREPORTS_ERROR_SQL_REQUIRED'));
 
             return;
         }
 
-        $notableKeyword = \FG\Component\Fgreports\Administrator\Helper\ScriptGuard::findBlockedKeyword($sqlScript);
+        $notableKeyword = \FG\Component\Fgsqlreports\Administrator\Helper\ScriptGuard::findBlockedKeyword($sqlScript);
         $warning = $notableKeyword !== null
-            ? Text::sprintf('COM_FGREPORTS_WARNING_NOTABLE_KEYWORD', $notableKeyword)
+            ? Text::sprintf('COM_FGSQLREPORTS_WARNING_NOTABLE_KEYWORD', $notableKeyword)
             : '';
 
-        /** @var \FG\Component\Fgreports\Administrator\Model\ReportModel $model */
+        /** @var \FG\Component\Fgsqlreports\Administrator\Model\ReportModel $model */
         $model = $this->getModel('Report', 'Administrator', ['ignore_request' => true]);
 
         try {

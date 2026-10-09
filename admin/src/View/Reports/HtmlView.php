@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Administrator\View\Reports;
+namespace FG\Component\Fgsqlreports\Administrator\View\Reports;
 
 defined('_JEXEC') or die;
 
@@ -25,7 +25,7 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null)
     {
-        /** @var \FG\Component\Fgreports\Administrator\Model\ReportsModel $model */
+        /** @var \FG\Component\Fgsqlreports\Administrator\Model\ReportsModel $model */
         $model = $this->getModel();
 
         $this->items         = $model->getItems();
@@ -43,27 +43,27 @@ class HtmlView extends BaseHtmlView
     {
         $user = Factory::getApplication()->getIdentity();
 
-        ToolbarHelper::title(Text::_('COM_FGREPORTS_MANAGER_REPORTS'), 'list fgreports');
+        ToolbarHelper::title(Text::_('COM_FGSQLREPORTS_MANAGER_REPORTS'), 'list fgsqlreports');
 
-        if ($user->authorise('core.create', 'com_fgreports')) {
+        if ($user->authorise('core.create', 'com_fgsqlreports')) {
             ToolbarHelper::addNew('report.add');
         }
 
-        if ($user->authorise('core.edit.state', 'com_fgreports') && !empty($this->items)) {
+        if ($user->authorise('core.edit.state', 'com_fgsqlreports') && !empty($this->items)) {
             ToolbarHelper::publish('reports.publish', 'JTOOLBAR_PUBLISH', true);
             ToolbarHelper::unpublish('reports.unpublish', 'JTOOLBAR_UNPUBLISH', true);
         }
 
-        if ($user->authorise('core.delete', 'com_fgreports') && !empty($this->items)) {
+        if ($user->authorise('core.delete', 'com_fgsqlreports') && !empty($this->items)) {
             ToolbarHelper::deleteList('', 'reports.delete', 'JTOOLBAR_DELETE');
         }
 
-        if ($user->authorise('core.options', 'com_fgreports')) {
+        if ($user->authorise('core.options', 'com_fgsqlreports')) {
             $toolbar = Toolbar::getInstance();
-            $toolbar->standardButton('test-connection', 'COM_FGREPORTS_TOOLBAR_TEST_CONNECTION', 'reports.testconnection')
+            $toolbar->standardButton('test-connection', 'COM_FGSQLREPORTS_TOOLBAR_TEST_CONNECTION', 'reports.testconnection')
                 ->icon('icon-connection');
 
-            ToolbarHelper::preferences('com_fgreports');
+            ToolbarHelper::preferences('com_fgsqlreports');
         }
     }
 }

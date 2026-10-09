@@ -1,13 +1,13 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
 defined('_JEXEC') or die;
 
-use FG\Component\Fgreports\Administrator\Helper\CryptoHelper;
+use FG\Component\Fgsqlreports\Administrator\Helper\CryptoHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Field\PasswordField;
 use Joomla\Registry\Registry;
@@ -36,7 +36,7 @@ class JFormFieldCryptpassword extends PasswordField
 
         if ($value === '') {
             // Keep the currently saved (already encrypted) password unchanged.
-            return (string) ComponentHelper::getParams('com_fgreports')->get($this->fieldname, '');
+            return (string) ComponentHelper::getParams('com_fgsqlreports')->get($this->fieldname, '');
         }
 
         return CryptoHelper::encrypt($value);

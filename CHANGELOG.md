@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.0
+- **Renamed the component from `com_fgreports` to `com_fgsqlreports`**, since "Reports" is too generic for a component that only reports from MS SQL Server and other report types may follow. This renames everything: extension element/folder, namespace (`FG\Component\Fgsqlreports`), DB table (`#__fgsqlreports_reports`), language files and `COM_FGSQLREPORTS_*` keys, ACL action (`fgsqlreports.execute`), cache group, CSS classes, installer script class, GitHub repo/update server URLs.
+- **Breaking: this is a new extension, not an update** of `com_fgreports` - Joomla cannot update across a changed element name. On a fresh install, `script.php` copies the old reports and Options (incl. the encrypted connection password) from `com_fgreports` if the new table is empty; old data is never touched. Menu items and ACL rules are not migrated. See "Upgrading from com_fgreports" in the README.
+- Schema history restarted: old `1.x` update SQL files removed, `sql/updates/mysql/2.0.0.sql` is the baseline (full schema is in `install.sql`).
+- Entries below refer to the component under its previous name.
+
+## 1.9.4
+- Fixed the main menu's "active" highlight jumping to the default/first menu item when opening an individual report from the list, instead of staying on "Reporty". The list template's detail links had no `Itemid` at all, so Joomla had nothing to associate the single-report page with the current menu item. `site/tmpl/reports/default.php` now appends the current `Itemid` (the "Reporty" list's own) to each report link. Pagination and sort links on the report page itself already preserved it correctly, since they clone the current request URL rather than building a fresh one.
+
+## 1.9.3
+- Fixed `COM_FGREPORTS_VIEW_REPORTS_TITLE` showing as a raw untranslated key (instead of "List of Reports"/"Zoznam reportov") in the Menus list, next to a menu item's type. Same root cause as the 1.0.5 submenu fix: that string was only defined in the main `.ini` (loaded once the component itself runs), not in `.sys.ini` (loaded for every installed component up front, which is what the Menus list renders with). Added `COM_FGREPORTS_VIEW_REPORTS_TITLE`/`COM_FGREPORTS_VIEW_REPORT_TITLE` to both `.sys.ini` files.
+
 ## 1.9.2
 - Added a per-report "Povoliť zoradenie" (Enable Column Sorting) toggle, default on. When off, column headers render as plain text instead of sort links, and - importantly - the front end ignores `sort`/`sort_dir` query-string parameters entirely for that report, not just hiding the UI, so sorting can't be forced back on by editing the URL for a report where row order is meant to be fixed. New `enable_sorting` column (`admin/sql/updates/mysql/1.9.2.sql`).
 

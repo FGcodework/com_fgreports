@@ -1,15 +1,15 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Administrator\Controller;
+namespace FG\Component\Fgsqlreports\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use FG\Component\Fgreports\Administrator\Helper\ConnectionHelper;
+use FG\Component\Fgsqlreports\Administrator\Helper\ConnectionHelper;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -31,20 +31,20 @@ class ReportsController extends AdminController
     {
         $this->checkToken();
 
-        if (!Factory::getApplication()->getIdentity()->authorise('core.options', 'com_fgreports')) {
+        if (!Factory::getApplication()->getIdentity()->authorise('core.options', 'com_fgsqlreports')) {
             throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
         }
 
         try {
             ConnectionHelper::getConnection();
-            $this->setMessage(Text::_('COM_FGREPORTS_TEST_CONNECTION_SUCCESS'));
+            $this->setMessage(Text::_('COM_FGSQLREPORTS_TEST_CONNECTION_SUCCESS'));
         } catch (Exception $e) {
             $this->setMessage(
-                Text::sprintf('COM_FGREPORTS_TEST_CONNECTION_FAILED', $e->getMessage()),
+                Text::sprintf('COM_FGSQLREPORTS_TEST_CONNECTION_FAILED', $e->getMessage()),
                 'error'
             );
         }
 
-        $this->setRedirect(Route::_('index.php?option=com_fgreports&view=reports', false));
+        $this->setRedirect(Route::_('index.php?option=com_fgsqlreports&view=reports', false));
     }
 }

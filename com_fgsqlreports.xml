@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade">
-    <name>COM_FGREPORTS</name>
+    <name>COM_FGSQLREPORTS</name>
     <author>Fero</author>
     <creationDate>2026-09</creationDate>
     <copyright>Copyright (C) Fero. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>1.9.2</version>
-    <description>COM_FGREPORTS_XML_DESCRIPTION</description>
-    <namespace path="src">FG\Component\Fgreports</namespace>
+    <version>2.0.0</version>
+    <description>COM_FGSQLREPORTS_XML_DESCRIPTION</description>
+    <namespace path="src">FG\Component\Fgsqlreports</namespace>
     <scriptfile>script.php</scriptfile>
     <minimum_joomla_version>5.4.0</minimum_joomla_version>
 
@@ -34,15 +34,15 @@
     </files>
 
     <languages folder="site/language">
-        <language tag="en-GB">en-GB/en-GB.com_fgreports.ini</language>
-        <language tag="sk-SK">sk-SK/sk-SK.com_fgreports.ini</language>
+        <language tag="en-GB">en-GB/en-GB.com_fgsqlreports.ini</language>
+        <language tag="sk-SK">sk-SK/sk-SK.com_fgsqlreports.ini</language>
     </languages>
 
     <administration>
-        <menu img="class:fgreports">COM_FGREPORTS</menu>
+        <menu img="class:fgsqlreports">COM_FGSQLREPORTS</menu>
         <submenu>
-            <menu link="option=com_fgreports&amp;view=reports" view="reports">COM_FGREPORTS_MENU_REPORTS</menu>
-            <menu link="option=com_fgreports&amp;task=report.add" view="report" alt="COM_FGREPORTS_MENU_NEW_REPORT">COM_FGREPORTS_MENU_NEW_REPORT</menu>
+            <menu link="option=com_fgsqlreports&amp;view=reports" view="reports">COM_FGSQLREPORTS_MENU_REPORTS</menu>
+            <menu link="option=com_fgsqlreports&amp;task=report.add" view="report" alt="COM_FGSQLREPORTS_MENU_NEW_REPORT">COM_FGSQLREPORTS_MENU_NEW_REPORT</menu>
         </submenu>
         <files folder="admin">
             <folder>fields</folder>
@@ -56,14 +56,14 @@
             <file>LICENSE.txt</file>
         </files>
         <languages folder="admin/language">
-            <language tag="en-GB">en-GB/en-GB.com_fgreports.ini</language>
-            <language tag="en-GB">en-GB/en-GB.com_fgreports.sys.ini</language>
-            <language tag="sk-SK">sk-SK/sk-SK.com_fgreports.ini</language>
-            <language tag="sk-SK">sk-SK/sk-SK.com_fgreports.sys.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_fgsqlreports.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_fgsqlreports.sys.ini</language>
+            <language tag="sk-SK">sk-SK/sk-SK.com_fgsqlreports.ini</language>
+            <language tag="sk-SK">sk-SK/sk-SK.com_fgsqlreports.sys.ini</language>
         </languages>
     </administration>
 
     <updateservers>
-        <server type="extension" name="FG SQL Reports Update Site">https://raw.githubusercontent.com/ferino75/com_fgreports/master/updates.xml</server>
+        <server type="extension" name="FG SQL Reports Update Site">https://raw.githubusercontent.com/FGcodework/com_fgsqlreports/master/updates.xml</server>
     </updateservers>
 </extension>

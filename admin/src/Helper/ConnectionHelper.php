@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Administrator\Helper;
+namespace FG\Component\Fgsqlreports\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
@@ -41,7 +41,7 @@ class ConnectionHelper
     public static function getConnection(): PDO
     {
         /** @var Registry $params */
-        $params = ComponentHelper::getParams('com_fgreports');
+        $params = ComponentHelper::getParams('com_fgsqlreports');
 
         $host       = trim((string) $params->get('dbhost', ''));
         $port       = (int) $params->get('dbport', 1433);
@@ -55,13 +55,13 @@ class ConnectionHelper
 
         if ($host === '' || $database === '' || $user === '') {
             throw new RuntimeException(
-                Factory::getApplication()->getLanguage()->_('COM_FGREPORTS_ERROR_CONNECTION_NOT_CONFIGURED')
+                Factory::getApplication()->getLanguage()->_('COM_FGSQLREPORTS_ERROR_CONNECTION_NOT_CONFIGURED')
             );
         }
 
         if (!\extension_loaded('pdo_sqlsrv')) {
             throw new RuntimeException(
-                Factory::getApplication()->getLanguage()->_('COM_FGREPORTS_ERROR_PDO_SQLSRV_MISSING')
+                Factory::getApplication()->getLanguage()->_('COM_FGSQLREPORTS_ERROR_PDO_SQLSRV_MISSING')
             );
         }
 
@@ -185,7 +185,7 @@ class ConnectionHelper
             } elseif (\is_object($value) || \is_array($value)) {
                 // Anything else unexpected (e.g. binary/resource-like data) -
                 // avoid a fatal (string) cast crashing the whole report.
-                $row[$key] = \Joomla\CMS\Language\Text::_('COM_FGREPORTS_UNSUPPORTED_VALUE');
+                $row[$key] = \Joomla\CMS\Language\Text::_('COM_FGSQLREPORTS_UNSUPPORTED_VALUE');
             }
         }
 

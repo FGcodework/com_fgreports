@@ -1,15 +1,15 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Site\Model;
+namespace FG\Component\Fgsqlreports\Site\Model;
 
 defined('_JEXEC') or die;
 
-use FG\Component\Fgreports\Administrator\Helper\ConnectionHelper;
+use FG\Component\Fgsqlreports\Administrator\Helper\ConnectionHelper;
 use Exception;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -39,13 +39,13 @@ class ReportModel extends ItemModel
 
         if (!$item) {
             throw new \Joomla\CMS\Router\Exception\RouteNotFoundException(
-                Text::_('COM_FGREPORTS_ERROR_REPORT_NOT_FOUND')
+                Text::_('COM_FGSQLREPORTS_ERROR_REPORT_NOT_FOUND')
             );
         }
 
         $limit = (int) $item->page_limit > 0
             ? (int) $item->page_limit
-            : (int) ComponentHelper::getParams('com_fgreports')->get('frontend_page_limit', 50);
+            : (int) ComponentHelper::getParams('com_fgsqlreports')->get('frontend_page_limit', 50);
         $limitstart = Factory::getApplication()->getInput()->getUint('limitstart', 0);
         $sortingEnabled = (bool) $item->enable_sorting;
         $sortColumn = $sortingEnabled ? Factory::getApplication()->getInput()->getString('sort', '') : '';
@@ -96,15 +96,15 @@ class ReportModel extends ItemModel
             $result['truncated'] = $capped['truncated'];
         } catch (Exception $e) {
             Log::add(
-                sprintf('com_fgreports report #%d execution failed: %s', $item->id, $e->getMessage()),
+                sprintf('com_fgsqlreports report #%d execution failed: %s', $item->id, $e->getMessage()),
                 Log::ERROR,
-                'com_fgreports'
+                'com_fgsqlreports'
             );
 
             $user = Factory::getApplication()->getIdentity();
-            $result['error'] = $user->authorise('core.admin', 'com_fgreports')
+            $result['error'] = $user->authorise('core.admin', 'com_fgsqlreports')
                 ? $e->getMessage()
-                : Text::_('COM_FGREPORTS_ERROR_REPORT_EXECUTION_GENERIC');
+                : Text::_('COM_FGSQLREPORTS_ERROR_REPORT_EXECUTION_GENERIC');
         }
 
         return $result;
@@ -119,7 +119,7 @@ class ReportModel extends ItemModel
         $id = $pk ?? (int) $this->getState('report.id');
         $alias = (string) $this->getState('report.alias', '');
 
-        $query->select('*')->from($db->quoteName('#__fgreports_reports'))
+        $query->select('*')->from($db->quoteName('#__fgsqlreports_reports'))
             ->where($db->quoteName('published') . ' = 1');
 
         if ($id > 0) {
@@ -209,7 +209,7 @@ class ReportModel extends ItemModel
 
     private function runWithCache(object $item): array
     {
-        $params  = ComponentHelper::getParams('com_fgreports');
+        $params  = ComponentHelper::getParams('com_fgsqlreports');
         $maxRows = (int) $params->get('max_rows', 10000);
         $ttl     = (int) $item->cache_ttl;
 
@@ -218,7 +218,7 @@ class ReportModel extends ItemModel
         }
 
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-            ->createCacheController('callback', ['defaultgroup' => 'com_fgreports']);
+            ->createCacheController('callback', ['defaultgroup' => 'com_fgsqlreports']);
         $cache->setLifeTime($ttl);
         $cache->setCaching(true);
 

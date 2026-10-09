@@ -1,0 +1,2 @@
+-- Baseline schema for com_fgsqlreports 2.0.0 (see sql/install/mysql/install.sql).
+-- Future schema changes go into new <version>.sql files in this folder.

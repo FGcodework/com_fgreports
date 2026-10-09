@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
@@ -17,7 +17,7 @@ use Joomla\CMS\Table\Table;
  * across Joomla versions in our experience than the plain method-name
  * convention Joomla has supported unchanged since 3.x.
  */
-class Com_fgreportsInstallerScript
+class Com_fgsqlreportsInstallerScript
 {
     /**
      * Non-blocking check for the pdo_sqlsrv extension before install/update.
@@ -50,29 +50,87 @@ class Com_fgreportsInstallerScript
      */
     public function postflight($type, $parent)
     {
-        if ($type !== 'update') {
-            return true;
-        }
-
         try {
-            $this->reencryptLegacyPassword();
+            if ($type === 'update') {
+                $this->reencryptLegacyPassword();
+            } elseif ($type === 'install') {
+                $this->migrateFromLegacyComponent();
+            }
         } catch (\Throwable $e) {
-            // Never let a migration helper break the update itself.
+            // Never let a migration helper break the install/update itself.
         }
 
         return true;
     }
 
+    /**
+     * One-time migration from the pre-2.0.0 name of this component
+     * (com_fgreports, table #__fgreports_reports). A fresh install of
+     * com_fgsqlreports copies the old reports and the old Options (including
+     * the already-encrypted connection password) across - but only if the new
+     * table is still empty, and it never touches or deletes the old data.
+     * Menu items and ACL rules of the old component are NOT migrated.
+     */
+    private function migrateFromLegacyComponent(): void
+    {
+        $db     = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+        $tables = array_map('strtolower', $db->getTableList());
+        $old    = strtolower($db->getPrefix() . 'fgreports_reports');
+        $new    = strtolower($db->getPrefix() . 'fgsqlreports_reports');
+
+        if (!\in_array($old, $tables, true) || !\in_array($new, $tables, true)) {
+            return;
+        }
+
+        $count = (int) $db->setQuery(
+            $db->getQuery(true)->select('COUNT(*)')->from($db->quoteName('#__fgsqlreports_reports'))
+        )->loadResult();
+
+        if ($count > 0) {
+            return;
+        }
+
+        $db->setQuery(
+            'INSERT INTO ' . $db->quoteName('#__fgsqlreports_reports')
+            . ' SELECT * FROM ' . $db->quoteName('#__fgreports_reports')
+        )->execute();
+
+        // Options (connection settings etc.) of the old component.
+        $oldParams = (string) $db->setQuery(
+            $db->getQuery(true)
+                ->select($db->quoteName('params'))
+                ->from($db->quoteName('#__extensions'))
+                ->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+                ->where($db->quoteName('element') . ' = ' . $db->quote('com_fgreports'))
+        )->loadResult();
+
+        if ($oldParams !== '' && $oldParams !== '{}') {
+            $db->setQuery(
+                $db->getQuery(true)
+                    ->update($db->quoteName('#__extensions'))
+                    ->set($db->quoteName('params') . ' = ' . $db->quote($oldParams))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote('com_fgsqlreports'))
+            )->execute();
+        }
+
+        Factory::getApplication()->enqueueMessage(
+            'FG SQL Reports: reports and Options were copied from the old com_fgreports component. '
+            . 'You can now uninstall com_fgreports and re-create its menu items using the new component.',
+            'message'
+        );
+    }
+
     private function reencryptLegacyPassword(): void
     {
-        if (!class_exists(\FG\Component\Fgreports\Administrator\Helper\CryptoHelper::class)) {
+        if (!class_exists(\FG\Component\Fgsqlreports\Administrator\Helper\CryptoHelper::class)) {
             return;
         }
 
         /** @var Table $table */
         $table = Table::getInstance('extension');
 
-        if (!$table->load(['type' => 'component', 'element' => 'com_fgreports'])) {
+        if (!$table->load(['type' => 'component', 'element' => 'com_fgsqlreports'])) {
             return;
         }
 
@@ -84,7 +142,7 @@ class Com_fgreportsInstallerScript
             return;
         }
 
-        $params['dbpass'] = \FG\Component\Fgreports\Administrator\Helper\CryptoHelper::encrypt($current);
+        $params['dbpass'] = \FG\Component\Fgsqlreports\Administrator\Helper\CryptoHelper::encrypt($current);
         $table->params = json_encode($params);
         $table->store();
     }

@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Administrator\View\Report;
+namespace FG\Component\Fgsqlreports\Administrator\View\Report;
 
 defined('_JEXEC') or die;
 
@@ -24,7 +24,7 @@ class HtmlView extends BaseHtmlView
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        /** @var \FG\Component\Fgreports\Administrator\Model\ReportModel $model */
+        /** @var \FG\Component\Fgsqlreports\Administrator\Model\ReportModel $model */
         $model = $this->getModel();
 
         $this->item  = $model->getItem();
@@ -41,12 +41,12 @@ class HtmlView extends BaseHtmlView
         $isNew = ((int) $this->item->id === 0);
         $user  = Factory::getApplication()->getIdentity();
         $canSave = $isNew
-            ? $user->authorise('core.create', 'com_fgreports')
-            : $user->authorise('core.edit', 'com_fgreports');
+            ? $user->authorise('core.create', 'com_fgsqlreports')
+            : $user->authorise('core.edit', 'com_fgsqlreports');
 
         ToolbarHelper::title(
-            Text::_($isNew ? 'COM_FGREPORTS_MANAGER_REPORT_NEW' : 'COM_FGREPORTS_MANAGER_REPORT_EDIT'),
-            'pencil-2 fgreports'
+            Text::_($isNew ? 'COM_FGSQLREPORTS_MANAGER_REPORT_NEW' : 'COM_FGSQLREPORTS_MANAGER_REPORT_EDIT'),
+            'pencil-2 fgsqlreports'
         );
 
         if ($canSave) {

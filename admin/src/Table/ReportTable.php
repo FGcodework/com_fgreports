@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Administrator\Table;
+namespace FG\Component\Fgsqlreports\Administrator\Table;
 
 defined('_JEXEC') or die;
 
@@ -17,19 +17,19 @@ class ReportTable extends Table
 {
     public function __construct(DatabaseDriver $db)
     {
-        parent::__construct('#__fgreports_reports', 'id', $db);
+        parent::__construct('#__fgsqlreports_reports', 'id', $db);
     }
 
     public function check()
     {
         if (trim($this->title) === '') {
-            $this->setError(\Joomla\CMS\Language\Text::_('COM_FGREPORTS_ERROR_TITLE_REQUIRED'));
+            $this->setError(\Joomla\CMS\Language\Text::_('COM_FGSQLREPORTS_ERROR_TITLE_REQUIRED'));
 
             return false;
         }
 
         if (trim($this->sql_script) === '') {
-            $this->setError(\Joomla\CMS\Language\Text::_('COM_FGREPORTS_ERROR_SQL_REQUIRED'));
+            $this->setError(\Joomla\CMS\Language\Text::_('COM_FGSQLREPORTS_ERROR_SQL_REQUIRED'));
 
             return false;
         }
@@ -46,11 +46,11 @@ class ReportTable extends Table
 
         $this->alias = $this->getUniqueAlias($this->alias);
 
-        $notableKeyword = \FG\Component\Fgreports\Administrator\Helper\ScriptGuard::findBlockedKeyword($this->sql_script);
+        $notableKeyword = \FG\Component\Fgsqlreports\Administrator\Helper\ScriptGuard::findBlockedKeyword($this->sql_script);
 
         if ($notableKeyword !== null) {
             \Joomla\CMS\Factory::getApplication()->enqueueMessage(
-                \Joomla\CMS\Language\Text::sprintf('COM_FGREPORTS_WARNING_NOTABLE_KEYWORD', $notableKeyword),
+                \Joomla\CMS\Language\Text::sprintf('COM_FGSQLREPORTS_WARNING_NOTABLE_KEYWORD', $notableKeyword),
                 'warning'
             );
         }

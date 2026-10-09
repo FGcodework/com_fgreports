@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     COM_FGREPORTS
+ * @package     COM_FGSQLREPORTS
  * @copyright   Copyright (C) Fero. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
 
-namespace FG\Component\Fgreports\Site\View\Reports;
+namespace FG\Component\Fgsqlreports\Site\View\Reports;
 
 defined('_JEXEC') or die;
 
@@ -17,7 +17,7 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null)
     {
-        /** @var \FG\Component\Fgreports\Site\Model\ReportsModel $model */
+        /** @var \FG\Component\Fgsqlreports\Site\Model\ReportsModel $model */
         $model = $this->getModel();
 
         $this->items = $model->getItems();
